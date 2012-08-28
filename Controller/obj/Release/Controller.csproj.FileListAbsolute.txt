@@ -1,0 +1,11 @@
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\bin\Release\Controller.Lib.dll
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\bin\Release\Controller.Lib.pdb
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\bin\Release\Communicator.Lib.dll
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\bin\Release\System.Data.SQLite.dll
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\bin\Release\Communicator.Lib.pdb
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\obj\Release\Controller.Properties.Resources.resources
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\obj\Release\GenerateResource.read.1.tlog
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\obj\Release\GenerateResource.write.1.tlog
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\obj\Release\Controller.Lib.dll
+C:\Users\Admin\Documents\GitHub\CodeBase\Controller\obj\Release\Controller.Lib.pdb
