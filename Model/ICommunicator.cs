@@ -8,7 +8,7 @@ namespace Model
         string FileName { get; }
         List<Entry> GetList();
         void DeleteItem(string key, string id);
-        void InsertOrUpdateItem(Entry entry, string key, string currentID);
+        void InsertOrUpdateItem(Entry item, string key, string id);
     }
 
     public static class CommunicatorSwitcher

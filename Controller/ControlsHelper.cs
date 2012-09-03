@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Model;
@@ -12,13 +13,13 @@ namespace Controller
         /// </summary>
         /// <param name="treeView">treeview name</param>
         /// <param name="list">List populating from</param>
-        public static void PupulateTreeView(TreeView treeView, IEnumerable<Entry> list)
+        private static void PupulateTreeView(TreeView treeView, IEnumerable<Entry> list)
         {
             treeView.Nodes.Clear();
-            foreach (var snode in list.Select(item => item.Category).Distinct())
-                treeView.Nodes.Add(new TreeNode {Text = snode, ImageIndex = 0});
+            foreach (var text in list.Select(item => item.Category).OrderBy(x => x).Distinct())
+                treeView.Nodes.Add(new TreeNode {Text = text, ImageIndex = 0});
 
-            treeView.ExpandAll();
+            //treeView.ExpandAll();
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Controller
         public static void PopulateListView(IEnumerable<Entry> list, ListView lw, string category)
         {
             lw.Items.Clear();
-            foreach (var item in list.Select(x => x).Where(x => x.Category == category))
+            foreach (var item in list.Where(x => x.Category == category))
             {
                 var listViewItem = new ListViewItem(item.Name);
                 listViewItem.SubItems.Add(item.Root);
@@ -45,13 +46,13 @@ namespace Controller
         /// <summary>
         /// Recursive method to find current node
         /// </summary>
-        /// <param name="nodes">nodecollection to look through</param>
+        /// <param name="nodeCollection">nodecollection to look through</param>
         /// <param name="childText">node text</param>
-        public static void SelectTreeViewNodeFromPath(TreeNodeCollection nodes, string childText)
+        private static void SelectTreeViewNodeFromPath(TreeNodeCollection nodeCollection, string childText)
         {
-            foreach (TreeNode node in nodes)
+            foreach (TreeNode node in nodeCollection)
             {
-                if (AreEqual(node.Text, childText, true))
+                if (string.Compare(node.Text, childText, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     node.TreeView.SelectedNode = node;
                     return;
@@ -67,7 +68,7 @@ namespace Controller
         /// <param name="name">string Name to search</param>
         public static void SelectListViewItemFromPath(ListView lw, string name)
         {
-            foreach (var item in lw.Items.Cast<ListViewItem>().Where(item => item.Text == name))
+            foreach (var item in lw.Items.Cast<ListViewItem>().Where(x => x.Text == name))
             {
                 item.Selected = true;
                 return;
@@ -77,24 +78,41 @@ namespace Controller
         /// <summary>
         /// Allows to search by Code or Name in current Category
         /// </summary>
-        /// <param name="lw">target lw to show items in</param>
         /// <param name="list">list to search in</param>
-        /// <param name="category">Category name</param>
+        /// <param name="currentCategory">Category name</param>
         /// <param name="stringToSearch">search string</param>
-        public static void SearchInCategory(ListView lw, IEnumerable<Entry> list, string category, string stringToSearch)
+        public static IEnumerable<Entry> SearchInCategory(IEnumerable<Entry> list, string currentCategory, string stringToSearch)
         {
-            var varList = list
-                .Where(x => x.Category == category)
-                .Where(var => AreEqual(var.Code, stringToSearch, true) || AreEqual(var.Name, stringToSearch, true)).ToList();
-            PopulateListView(varList, lw, category);
+            return list
+                .Where(x => x.Category == currentCategory)
+                .Where(x => Contains(x.Code, stringToSearch) || Contains(x.Name, stringToSearch)).ToList();            
         }
 
         /// <summary>
-        /// Allows to compare ignorecase or not (string.Compare extension)
+        /// Allows to update ListView with data from selected category
         /// </summary>
-        private static bool AreEqual(string a, string b, bool ignoreCase)
+        /// <param name="view">current view</param>
+        /// <param name="currentCategory">category</param>
+        /// <param name="list"></param>
+        public static void EntriesChanged(ISnippetView view, string currentCategory, List<Entry> list)
         {
-            return string.Compare(a, b, ignoreCase) == 0;
+            view.GetTreeView.BeginUpdate();
+            PupulateTreeView(view.GetTreeView, list);
+            view.FillCategory(list);
+
+            PopulateListView(list, view.GetListView, currentCategory);
+
+            SelectTreeViewNodeFromPath(view.GetTreeView.Nodes, view.EntryItem.Category);
+            SelectListViewItemFromPath(view.GetListView, view.EntryItem.Name);
+            view.GetTreeView.EndUpdate();
+        }
+
+        /// <summary>
+        /// Allows to find occurences ignorecase
+        /// </summary>
+        private static bool Contains(string a, string b)
+        {
+            return a.ToUpper().Contains(b.ToUpper());
         }
     }
 }

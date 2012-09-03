@@ -98,6 +98,18 @@ namespace CodeBase
             _tbCategory.Items.AddRange(list.Select(x => (object) x.Category).Distinct().OrderBy(x => x).ToArray());
         }
 
+        public void HideDetails()
+        {
+            panel1.Visible = false;
+            panel2.Height = 38;
+        }
+
+        public void ShowDetails()
+        {
+            panel1.Visible = true;
+            panel2.Height = 112;
+        }
+
         #endregion
 
         private void Button1Click(object sender, EventArgs e)
@@ -105,21 +117,9 @@ namespace CodeBase
             HideDetails();
         }
 
-        public void HideDetails()
-        {
-            panel1.Visible = false;
-            panel2.Height = 38;
-        }
-
         private void Button2Click(object sender, EventArgs e)
         {
             ShowDetails();
-        }
-
-        public void ShowDetails()
-        {
-            panel1.Visible = true;
-            panel2.Height = 112;
         }
     }
 }

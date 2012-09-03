@@ -6,18 +6,13 @@ namespace Controller
 {
     public interface ISnippetView
     {
-        string SearchBoxText { get; set; }
-
-        TreeNode SetSelectedNode { set; }
+        string SearchBoxText { set; }
         TreeView GetTreeView { get; }
-
         ListView GetListView { get; }
-        UserControl GetControl { get; }
-
+        UserControl GetUserControl { get; }
         Entry EntryItem { get; set; }
 
         void SetController(SnippetController controller);
-
         void FillCategory(IEnumerable<Entry> list);
     }
 }

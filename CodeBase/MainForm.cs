@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 using CodeBase.Properties;
 using Controller;
@@ -13,57 +15,27 @@ namespace CodeBase
         private static ITextControl _currentTextControl;
         private SnippetController _controller;
 
+        private ListViewItem _itemOnMouseDown;
+
         public MainForm()
         {
+            Thread.CurrentThread.CurrentUICulture = GetCultureInfo(ConfigurationManager.AppSettings["Language"]);
             InitializeComponent();
 
-            panel1.Controls.Add((UserControl) (_currentTextControl = new TextControlTextEditor()));
+            splitContainer2.Panel2.Controls.Add((UserControl) (_currentTextControl = new TextControlTextEditor()));
             ((UserControl) _currentTextControl).Dock = DockStyle.Fill;
             ((UserControl) _currentTextControl).Visible = false;
 
-            activeTreeView.AfterSelect += (s, e) => _controller.AfterSelectEvent(GetListView, e);
 
-            searchTextBox.TextChanged += (s, e) =>
-                                             {
-                                                 if (!SearchBoxText.Contains("Search in") && SearchBoxText.Length > 0) _controller.FilterLw();
-                                             };
-
-            searchTextBox.MouseDown += (s, e) =>
-                                           {
-                                               if (SearchBoxText.Contains("Search in"))
-                                                   searchTextBox.Text = string.Empty;
-                                           };
-
-            searchTextBox.Leave += (s, e) =>
-                                       {
-                                           if (string.IsNullOrEmpty(SearchBoxText)) SearchBoxText = _controller.CurrentCategory;
-                                       };
-
-            listView1.SelectedIndexChanged += (s, e) =>
-            {
-                if (_itemOnMouseDown != null && GetListView.SelectedIndices.Count == 0)
-                    return;
-                _controller.ListViewSelectNodes(s);
-            };
-
-            listView1.Layout += (s, e) => listView1.Columns[listView1.Columns.Count - 1].Width = -2;
+            GetListView.Layout += (s, e) => GetListView.Columns[GetListView.Columns.Count - 1].Width = -2;
             exitToolStripMenuItem.Click += (s, e) => Close();
         }
 
-        private ListViewItem _itemOnMouseDown;
-        private void LvTransactionsMouseDown(object sender, MouseEventArgs e)
-        {
-            _itemOnMouseDown = GetListView.GetItemAt(e.X, e.Y);
-        }
-
         /// <summary>
-        /// Allows to select nodes not clicking on them directly
+        /// Entry Id property
         /// </summary>
-        private void TreeViewSelectNodes(object sender, MouseEventArgs e)
-        {
-            var node = GetTreeView.GetNodeAt(e.X, e.Y);
-            if (node != null) GetTreeView.SelectedNode = node;
-        }
+        private string EntryId { get; set; }
+
         #region ISnippetView Members
 
         /// <summary>
@@ -77,11 +49,10 @@ namespace CodeBase
         /// <summary>
         /// Usercontrol with dataedit
         /// </summary>
-        public UserControl GetControl
+        public UserControl GetUserControl
         {
             get { return (UserControl) _currentTextControl; }
         }
-
 
         /// <summary>
         /// Allows to get current treeview name
@@ -105,7 +76,8 @@ namespace CodeBase
                                Description = _currentTextControl.TcDescription,
                                Code = _currentTextControl.TcCode,
                                Category = _currentTextControl.TcCategory,
-                               DateChanged = DateTime.Now.ToString(CultureInfo.InvariantCulture)
+                               DateChanged = DateTime.Now.ToString(CultureInfo.InvariantCulture),
+                               ID = EntryId
                            };
             }
             set
@@ -115,6 +87,7 @@ namespace CodeBase
                 _currentTextControl.TcCode = value.Code;
                 _currentTextControl.TcCategory = value.Category;
                 _currentTextControl.TcLanguage = value.Root;
+                EntryId = value.ID;
             }
         }
 
@@ -128,7 +101,7 @@ namespace CodeBase
         }
 
         /// <summary>
-        /// Allows to fill UserControl combobox with items
+        /// Allows to fill GetUserControl combobox with items
         /// </summary>
         /// <param name="list">target list</param>
         public void FillCategory(IEnumerable<Entry> list)
@@ -139,18 +112,55 @@ namespace CodeBase
         public string SearchBoxText
         {
             get { return searchTextBox.Text; }
-            set { searchTextBox.Text = string.Format("Search in {0}", value); }
-        }
-
-        /// <summary>
-        /// Allows to select node
-        /// </summary>
-        public TreeNode SetSelectedNode
-        {
-            set { activeTreeView.SelectedNode = value; }
+            set { searchTextBox.Text = string.Format(Resources.Search + " {0}", value); }
         }
 
         #endregion
+
+        private void OnSearchTextBoxLeave(object s, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(SearchBoxText))
+                SearchBoxText = _controller.CurrentCategory;
+        }
+
+        private void OnSearchTextBoxTextChanged(object s, EventArgs e)
+        {
+            if (SearchBoxText.Contains(Resources.Search) || SearchBoxText.Length <= 0) return;
+            var entry = ControlsHelper.SearchInCategory(_controller.Entries, _controller.CurrentCategory, SearchBoxText);
+            ControlsHelper.PopulateListView(entry, GetListView, _controller.CurrentCategory);
+        }
+
+        private void OnSearchTextBoxMouseDown(object s, MouseEventArgs e)
+        {
+            if (SearchBoxText.Contains(Resources.Search))
+                searchTextBox.Text = string.Empty;
+        }
+
+        private void OnTreeViewAfterSelect(object s, TreeViewEventArgs e)
+        {
+            _controller.AfterSelectEvent(GetListView, e);
+        }
+
+        private void OnSelectedIndexChanged(object s, EventArgs e)
+        {
+            if (_itemOnMouseDown != null && GetListView.SelectedIndices.Count == 0)
+                return;
+            _controller.ListViewSelectNodes(s);
+        }
+
+        private void LvTransactionsMouseDown(object sender, MouseEventArgs e)
+        {
+            _itemOnMouseDown = GetListView.GetItemAt(e.X, e.Y);
+        }
+
+        /// <summary>
+        /// Allows to select nodes not clicking on them directly
+        /// </summary>
+        private void TreeViewSelectNodes(object sender, MouseEventArgs e)
+        {
+            TreeNode node = GetTreeView.GetNodeAt(e.X, e.Y);
+            if (node != null) GetTreeView.SelectedNode = node;
+        }
 
         private void NewMenuItemClick(object sender, EventArgs e)
         {
@@ -185,12 +195,53 @@ namespace CodeBase
 
         private void SaveToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (GetListView.SelectedItems.Count > 0 && _controller.Serialize()) MessageBox.Show(Resources.Done);
+            if (GetListView.SelectedItems.Count > 0 && _controller.Serialize())
+                MessageBox.Show(Resources.Done);
         }
 
         private void RestoreToolStripMenuItemClick(object sender, EventArgs e)
         {
             _controller.Deserialize();
+        }
+
+        private void EnglishToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            russianToolStripMenuItem.Checked = false;
+            englishToolStripMenuItem.Checked = true;
+            Thread.CurrentThread.CurrentUICulture = GetCultureInfo("en");
+            ApplyResources();
+            _currentTextControl.ApplyResources();
+        }
+
+        private void RussianToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            russianToolStripMenuItem.Checked = true;
+            englishToolStripMenuItem.Checked = false;
+            Thread.CurrentThread.CurrentUICulture = GetCultureInfo("ru");
+            ApplyResources();
+            _currentTextControl.ApplyResources();
+        }
+
+        private void MainFormResize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+            }
+        }
+
+        private void NotifyIconDoubleClick(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Show();
+                WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                WindowState = FormWindowState.Minimized;
+                Hide();
+            }
         }
     }
 }

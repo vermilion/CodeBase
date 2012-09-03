@@ -18,7 +18,7 @@ namespace CodeBase
 
             var view = new MainForm();
             new SnippetController(view, CommunicatorSwitcher.GetCommunicator).LoadView();
-            view.ShowDialog();
+            Application.Run(view);
         }
     }
 }

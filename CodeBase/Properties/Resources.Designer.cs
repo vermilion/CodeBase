@@ -60,38 +60,66 @@ namespace CodeBase.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap accessories_text_editor_9039 {
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
             get {
-                object obj = ResourceManager.GetObject("accessories-text-editor_9039", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Add", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap Action_edit_add_icon {
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        internal static string Backup {
             get {
-                object obj = ResourceManager.GetObject("Action-edit-add-icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Backup", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap Actions_edit_delete_icon {
+        /// <summary>
+        ///   Looks up a localized string similar to Category:.
+        /// </summary>
+        internal static string Category {
             get {
-                object obj = ResourceManager.GetObject("Actions-edit-delete-icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Category", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap Actions_pencil_icon {
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Code.
+        /// </summary>
+        internal static string Copy_Code {
             get {
-                object obj = ResourceManager.GetObject("Actions-pencil-icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Copy_Code", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap add2__4691 {
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Delete {
             get {
-                object obj = ResourceManager.GetObject("add2-_4691", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        internal static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -104,75 +132,180 @@ namespace CodeBase.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap editcut_1453 {
+        /// <summary>
+        ///   Looks up a localized string similar to Empty.
+        /// </summary>
+        internal static string Empty {
             get {
-                object obj = ResourceManager.GetObject("editcut_1453", resourceCulture);
+                return ResourceManager.GetString("Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        internal static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        internal static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ImageAdd {
+            get {
+                object obj = ResourceManager.GetObject("ImageAdd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap editcut_4381 {
+        internal static System.Drawing.Bitmap ImageCollapse {
             get {
-                object obj = ResourceManager.GetObject("editcut_4381", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageCollapse", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap editpaste_1263 {
+        internal static System.Drawing.Bitmap ImageDelete {
             get {
-                object obj = ResourceManager.GetObject("editpaste_1263", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageDelete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap editpaste_2861 {
+        internal static System.Drawing.Bitmap ImageEdit {
             get {
-                object obj = ResourceManager.GetObject("editpaste_2861", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageEdit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Magnifier_icon {
+        internal static System.Drawing.Bitmap ImageExpand {
             get {
-                object obj = ResourceManager.GetObject("Magnifier-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageExpand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap onebit_32_3404 {
+        internal static System.Drawing.Bitmap ImageSearch {
             get {
-                object obj = ResourceManager.GetObject("onebit_32_3404", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageSearch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Done.
+        ///   Looks up a localized string similar to Language.
         /// </summary>
-        internal static string OperationSucceeded {
+        internal static string Language {
             get {
-                return ResourceManager.GetString("OperationSucceeded", resourceCulture);
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap text_code_add {
+        /// <summary>
+        ///   Looks up a localized string similar to Last Changed.
+        /// </summary>
+        internal static string Last_Changed {
             get {
-                object obj = ResourceManager.GetObject("text_code_add", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Last_Changed", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap text_code_delete {
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string Name {
             get {
-                object obj = ResourceManager.GetObject("text_code_delete", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap text_code_edit {
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        internal static string New {
             get {
-                object obj = ResourceManager.GetObject("text_code_edit", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore.
+        /// </summary>
+        internal static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Russian.
+        /// </summary>
+        internal static string Russian {
+            get {
+                return ResourceManager.GetString("Russian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search in.
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snippet.
+        /// </summary>
+        internal static string Snippet {
+            get {
+                return ResourceManager.GetString("Snippet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax.
+        /// </summary>
+        internal static string Syntax {
+            get {
+                return ResourceManager.GetString("Syntax", resourceCulture);
             }
         }
         
@@ -182,6 +315,15 @@ namespace CodeBase.Properties {
         internal static string TextHighlight {
             get {
                 return ResourceManager.GetString("TextHighlight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        internal static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
             }
         }
     }

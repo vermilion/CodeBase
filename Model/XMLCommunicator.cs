@@ -30,9 +30,9 @@ namespace Model
         {
             if (!File.Exists(FileName))
                 if (MessageBox.Show("XML file is empty or corrupt.\r\nNew one will be created...", "XML warning", MessageBoxButtons.OK) == DialogResult.OK)
-                   File.WriteAllText(FileName, "<?xml version=\"1.0\" encoding=\"windows-1251\"?><ArrayOfEntry xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" />");
+                    File.WriteAllText(FileName, "<?xml version=\"1.0\" encoding=\"windows-1251\"?><ArrayOfEntry xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" />");
 
-            return  (XDocument.Load(FileName).Descendants("Entry")
+            return (XDocument.Load(FileName).Descendants("Entry")
                 .Select(dr => new Entry
                                   {
                                       ID = dr.Element("ID").Value,
@@ -52,7 +52,7 @@ namespace Model
         /// <param name="id">unique key value</param>
         public void DeleteItem(string key, string id)
         {
-            var list = GetList();
+            List<Entry> list = GetList();
             list.Remove(list.Find(x => x.ID == id));
             using (var myWriter = new StreamWriter(FileName, false, Encoding.Default))
             {
@@ -63,22 +63,22 @@ namespace Model
         /// <summary>
         /// Allows to insert or update item in XML document by Key
         /// </summary>
-        /// <param name="entry"> </param>
+        /// <param name="item"> </param>
         /// <param name="key"></param>
-        /// <param name="currentID">unique key value</param>
-        public void InsertOrUpdateItem(Entry entry, string key, string currentID)
+        /// <param name="id">unique key value</param>
+        public void InsertOrUpdateItem(Entry item, string key, string id)
         {
-            var list = GetList();
-            if (list.Find(x => x.ID == currentID) == null)
+            List<Entry> list = GetList();
+            if (list.Find(x => x.ID == id) == null)
             {
-                entry.ID = list.Count == 0 ? "1" : (Int32.Parse(list.Select(x => x.ID).Max()) + 2).ToString(CultureInfo.InvariantCulture);
-                list.Add(entry);
+                item.ID = list.Count == 0 ? "1" : (Int32.Parse(list.Select(x => x.ID).Max()) + 2).ToString(CultureInfo.InvariantCulture);
+                list.Add(item);
             }
             else
             {
-                list.Remove(list.Find(x => x.ID == currentID));
-                entry.ID = currentID;                
-                list.Add(entry);
+                list.Remove(list.Find(x => x.ID == id));
+                item.ID = id;
+                list.Add(item);
             }
 
             using (var myWriter = new StreamWriter(FileName, false, Encoding.Default))

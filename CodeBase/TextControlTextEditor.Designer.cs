@@ -1,4 +1,6 @@
-﻿namespace CodeBase
+﻿using CodeBase.Properties;
+
+namespace CodeBase
 {
     partial class TextControlTextEditor
     {
@@ -73,9 +75,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._tbCategory.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._tbCategory.Location = new System.Drawing.Point(73, 42);
+            this._tbCategory.Location = new System.Drawing.Point(86, 42);
             this._tbCategory.Name = "_tbCategory";
-            this._tbCategory.Size = new System.Drawing.Size(673, 21);
+            this._tbCategory.Size = new System.Drawing.Size(660, 21);
             this._tbCategory.TabIndex = 6;
             // 
             // label5
@@ -118,7 +120,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.BackgroundImage = global::CodeBase.Properties.Resources.editpaste_2861;
+            this.button2.BackgroundImage = global::CodeBase.Properties.Resources.ImageExpand;
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button2.Location = new System.Drawing.Point(721, 8);
             this.button2.Name = "button2";
@@ -130,7 +132,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackgroundImage = global::CodeBase.Properties.Resources.editcut_1453;
+            this.button1.BackgroundImage = global::CodeBase.Properties.Resources.ImageCollapse;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.Location = new System.Drawing.Point(696, 8);
             this.button1.Name = "button1";
@@ -149,7 +151,7 @@
             this._tbName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._tbName.Location = new System.Drawing.Point(12, 10);
             this._tbName.Name = "_tbName";
-            this._tbName.Size = new System.Drawing.Size(408, 22);
+            this._tbName.Size = new System.Drawing.Size(593, 22);
             this._tbName.TabIndex = 1;
             // 
             // _cbLanguage
@@ -178,6 +180,11 @@
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
+        }
+
+        public void ApplyResources()
+        {
+            this.label5.Text = Resources.Category;
         }
 
         #endregion

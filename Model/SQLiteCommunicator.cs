@@ -45,9 +45,9 @@ namespace Model
         {
             if (_db.ExecuteScalar(string.Format("SELECT name FROM sqlite_master WHERE type='table' AND name='{0}'", TableName)) == "")
                 if (MessageBox.Show("Sqlite database is empty or corrupt.\r\nNew one will be created...", "Sqlite warning", MessageBoxButtons.OK) == DialogResult.OK)
-                    _db.ExecuteNonQuery("CREATE TABLE Snippet (Attachment TEXT, ID integer PRIMARY KEY, Root text, Name text, Description text, Code varchar, Usings text, Category varchar, DateChanged varchar)");
+                    _db.ExecuteNonQuery("CREATE TABLE Snippet (ID integer PRIMARY KEY, Root text, Name text, Description text, Code varchar, Category varchar, DateChanged varchar)");
 
-            return (from DataRow dr in SQLiteDatabaseHelper.FillDataset("select * from " + TableName).Tables[0].Rows
+            return (from DataRow dr in _db.FillDataset("select * from " + TableName).Tables[0].Rows
                     select new Entry
                                {
                                    ID = dr["ID"].ToString(),
@@ -73,26 +73,25 @@ namespace Model
         /// <summary>
         /// Allows to insert or update item in database by Key
         /// </summary>
-        /// <param name="entry"> </param>
+        /// <param name="item"> </param>
         /// <param name="key">unique key name for sql queue</param>
-        /// <param name="currentID">unique key value for sql queue</param>
-        public void InsertOrUpdateItem(Entry entry, string key, string currentID)
+        /// <param name="id">unique key value for sql queue</param>
+        public void InsertOrUpdateItem(Entry item, string key, string id)
         {
-            //создание и добавление полей в словарь для добавление/изменения в БД
             var dict = new Dictionary<String, String>
                            {
-                               {"Root", entry.Root},
-                               {"Name", entry.Name},
-                               {"Description", entry.Description},
-                               {"Code", entry.Code.Replace("'", "''")},
-                               {"Category", entry.Category},
-                               {"DateChanged", entry.DateChanged.ToString(CultureInfo.InvariantCulture)}
+                               {"Root", item.Root},
+                               {"Name", item.Name},
+                               {"Description", item.Description},
+                               {"Code", item.Code.Replace("'", "''")},
+                               {"Category", item.Category},
+                               {"DateChanged", item.DateChanged.ToString(CultureInfo.InvariantCulture)}
                            };
 
-            if (_db.ExecuteScalar(String.Format("select {0} from {1} where {2}={3}", key, TableName, key, currentID)) == "")
+            if (_db.ExecuteScalar(String.Format("select {0} from {1} where {2}={3}", key, TableName, key, id)) == string.Empty)
                 _db.Insert(TableName, dict);
             else
-                _db.Update(TableName, dict, String.Format("{0}={1}", key, currentID));
+                _db.Update(TableName, dict, String.Format("{0}={1}", key, id));
         }
 
         #endregion

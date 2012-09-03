@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace CodeBase
 {
-    class MyListView : ListView
+    internal class MyListView : ListView
     {
         protected override void WndProc(ref Message msg)
         {
@@ -11,7 +11,7 @@ namespace CodeBase
             if (msg.Msg >= 0x201 && msg.Msg <= 0x209)
             {
                 var pointMousePos = new Point(msg.LParam.ToInt32() & 0xffff, msg.LParam.ToInt32() >> 16);
-                var lvhti = HitTest(pointMousePos);
+                ListViewHitTestInfo lvhti = HitTest(pointMousePos);
                 switch (lvhti.Location)
                 {
                     case ListViewHitTestLocations.AboveClientArea:

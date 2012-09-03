@@ -11,7 +11,7 @@ namespace Model
         private static string _dbConnection;
 
         /// <summary>
-        ///     Single Param Constructor for specifying the DB file.
+        /// Single Param Constructor for specifying the DB file.
         /// </summary>
         /// <param name="inputFile">The File containing the DB</param>
         public SQLiteDatabaseHelper(string inputFile)
@@ -20,7 +20,7 @@ namespace Model
         }
 
         /// <summary>
-        ///     Allows the programmer to interact with the database for purposes other than a query.
+        /// Allows the programmer to interact with the database for purposes other than a query.
         /// </summary>
         /// <param name="sql">The SQL to be run.</param>
         public void ExecuteNonQuery(string sql)
@@ -35,7 +35,7 @@ namespace Model
 
 
         /// <summary>
-        ///     Allows the programmer to retrieve single items from the DB.
+        /// Allows the programmer to retrieve single items from the DB.
         /// </summary>
         /// <param name="sql">The query to run.</param>
         /// <returns>A string.</returns>
@@ -49,12 +49,12 @@ namespace Model
                 if (value != null)
                     return value.ToString();
             }
-            return "";
+            return string.Empty;
         }
 
 
         /// <summary>
-        ///     Allows the programmer to easily update rows in the DB.
+        /// Allows the programmer to easily update rows in the DB.
         /// </summary>
         /// <param name="tableName">The table to update.</param>
         /// <param name="data">A dictionary containing Column names and their new values.</param>
@@ -73,7 +73,7 @@ namespace Model
 
 
         /// <summary>
-        ///     Allows the programmer to easily insert into the DB
+        /// Allows the programmer to easily insert into the DB
         /// </summary>
         /// <param name="tableName">The table into which we insert the data.</param>
         /// <param name="data">A dictionary containing the column names and data for the insert.</param>
@@ -97,7 +97,7 @@ namespace Model
         /// </summary>
         /// <param name="sql">sql query</param>
         /// <returns>Filled dataset</returns>
-        public static DataSet FillDataset(string sql)
+        public DataSet FillDataset(string sql)
         {
             var ds = new DataSet();
             using (var cnn = new SQLiteConnection(_dbConnection))

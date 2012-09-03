@@ -15,5 +15,6 @@ namespace CodeBase
         void ShowDetails();
         void HideDetails();
         void FillCategory(IEnumerable<Entry> list);
+        void ApplyResources();
     }
 }
