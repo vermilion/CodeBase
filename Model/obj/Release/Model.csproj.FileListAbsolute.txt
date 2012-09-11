@@ -1,6 +1,0 @@
-C:\Users\Admin\Documents\GitHub\CodeBase\Model\bin\Release\Communicator.Lib.dll
-C:\Users\Admin\Documents\GitHub\CodeBase\Model\bin\Release\Communicator.Lib.pdb
-C:\Users\Admin\Documents\GitHub\CodeBase\Model\bin\Release\System.Data.SQLite.dll
-C:\Users\Admin\Documents\GitHub\CodeBase\Model\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Admin\Documents\GitHub\CodeBase\Model\obj\Release\Communicator.Lib.dll
-C:\Users\Admin\Documents\GitHub\CodeBase\Model\obj\Release\Communicator.Lib.pdb
