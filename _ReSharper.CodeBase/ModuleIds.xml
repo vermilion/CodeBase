@@ -1,0 +1,5 @@
+<Modules>
+  <Module PersistentId="6B173050-219A-4448-849E-215E1DFD06A1" ModuleId="Controller" />
+  <Module PersistentId="B3A5FE90-7678-458D-B3D8-1BE910118ECA" ModuleId="Model" />
+  <Module PersistentId="1D58FC0E-4E98-48E2-BAD7-AC35F28A272C" ModuleId="View" />
+</Modules>

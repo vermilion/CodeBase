@@ -57,6 +57,7 @@ namespace Model
 
             if (_db.ExecuteScalar(String.Format("select {0} from {1} where {2}={3}", key, TableName, key, id)) == string.Empty)
             {
+                dict.Remove("ID");
                 _db.Insert(TableName, dict);
                 return _db.GetLastInsertRowId();
             }
