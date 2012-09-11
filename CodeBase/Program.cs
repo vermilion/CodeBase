@@ -17,7 +17,7 @@ namespace CodeBase
             Application.SetCompatibleTextRenderingDefault(false);
 
             var view = new MainForm();
-            new SnippetController(view, CommunicatorSwitcher.GetCommunicator).LoadView();
+            new SnippetController(view, new SQLiteCommunicator()).LoadView();
             Application.Run(view);
         }
     }

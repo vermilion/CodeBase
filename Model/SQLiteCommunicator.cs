@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Model
@@ -27,73 +27,61 @@ namespace Model
             get { return "Snippet"; }
         }
 
-        #region ICommunicator Members
-
-        /// <summary>
-        /// Name of file to work with
-        /// </summary>
-        public string FileName
+        private string FileName
         {
             get { return "snippet.db3"; }
         }
 
-        /// <summary>
-        /// Allows to convert Dataset to List of class
-        /// </summary>
-        /// <returns>List of class</returns>
+        #region ICommunicator Members
+
         public List<Entry> GetList()
         {
-            if (_db.ExecuteScalar(string.Format("SELECT name FROM sqlite_master WHERE type='table' AND name='{0}'", TableName)) == "")
-                if (MessageBox.Show("Sqlite database is empty or corrupt.\r\nNew one will be created...", "Sqlite warning", MessageBoxButtons.OK) == DialogResult.OK)
+            if (_db.ExecuteScalar(string.Format("SELECT name FROM sqlite_master WHERE type='table' AND name='{0}'", TableName)) == string.Empty)
+                if (MessageBox.Show("Sqlite database is empty or corrupt.\r\nNew one will be created...", "SQLite warning", MessageBoxButtons.OK) == DialogResult.OK)
                     _db.ExecuteNonQuery("CREATE TABLE Snippet (ID integer PRIMARY KEY, Root text, Name text, Description text, Code varchar, Category varchar, DateChanged varchar)");
 
-            return (from DataRow dr in _db.FillDataset("select * from " + TableName).Tables[0].Rows
-                    select new Entry
-                               {
-                                   ID = dr["ID"].ToString(),
-                                   Root = dr["Root"].ToString(),
-                                   Name = dr["Name"].ToString(),
-                                   Description = dr["Description"].ToString(),
-                                   Code = dr["Code"].ToString(),
-                                   Category = dr["Category"].ToString(),
-                                   DateChanged = dr["DateChanged"].ToString()
-                               }).ToList();
+            return _db.FillDataset("select * from " + TableName).ToList<Entry>();
         }
 
-        /// <summary>
-        /// Allows to delete item from database by Key
-        /// </summary>
-        /// <param name="key">unique key name for sql queue</param>
-        /// <param name="id">unique key value for sql queue</param>
-        public void DeleteItem(string key, string id)
+        public void DeleteItem(string key, Int64 id)
         {
             _db.ExecuteNonQuery(String.Format("delete from {0} where {1};", TableName, key + "=" + id));
         }
 
-        /// <summary>
-        /// Allows to insert or update item in database by Key
-        /// </summary>
-        /// <param name="item"> </param>
-        /// <param name="key">unique key name for sql queue</param>
-        /// <param name="id">unique key value for sql queue</param>
-        public void InsertOrUpdateItem(Entry item, string key, string id)
+        public Int64 ModifyItem(Entry item, string key, Int64 id)
         {
-            var dict = new Dictionary<String, String>
-                           {
-                               {"Root", item.Root},
-                               {"Name", item.Name},
-                               {"Description", item.Description},
-                               {"Code", item.Code.Replace("'", "''")},
-                               {"Category", item.Category},
-                               {"DateChanged", item.DateChanged.ToString(CultureInfo.InvariantCulture)}
-                           };
+            Dictionary<string, string> dict = item.GetType()
+                .GetFields()
+                .ToDictionary(x => x.Name,
+                              x => x.GetValue(item).ToString().Replace("'", "''"));
 
             if (_db.ExecuteScalar(String.Format("select {0} from {1} where {2}={3}", key, TableName, key, id)) == string.Empty)
+            {
                 _db.Insert(TableName, dict);
-            else
-                _db.Update(TableName, dict, String.Format("{0}={1}", key, id));
+                return _db.GetLastInsertRowId();
+            }
+            _db.Update(TableName, dict, String.Format("{0}={1}", key, id));
+            return id;
         }
 
         #endregion
+    }
+
+    public static class DataTableExtensions
+    {
+        public static List<T> ToList<T>(this DataTable table) where T : new()
+        {
+            List<FieldInfo> properties = typeof (T).GetFields().ToList();
+            return (from object row in table.Rows select CreateItemFromRow<T>((DataRow) row, properties)).ToList();
+        }
+
+        private static T CreateItemFromRow<T>(DataRow row, IEnumerable<FieldInfo> properties) where T : new()
+        {
+            var item = new T();
+            foreach (FieldInfo property in properties)
+                property.SetValue(item, row[property.Name]);
+
+            return item;
+        }
     }
 }

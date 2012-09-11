@@ -1,0 +1,13 @@
+C:\Users\Admin\Documents\GitHub\CodeBase\_bin\CodeBase.exe
+C:\Users\Admin\Documents\GitHub\CodeBase\_bin\CodeBase.pdb
+C:\Users\Admin\Documents\GitHub\CodeBase\_bin\ru\CodeBase.resources.dll
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\CodeBase.MainForm.resources
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\CodeBase.Properties.Resources.resources
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\CodeBase.TextControlTextEditor.resources
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\CodeBase.Properties.Resources.ru.resources
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\GenerateResource.read.1.tlog
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\GenerateResource.write.1.tlog
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\ru\CodeBase.resources.dll
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\CodeBase.exe
+C:\Users\Admin\Documents\GitHub\CodeBase\CodeBase\obj\Release\CodeBase.pdb

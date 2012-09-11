@@ -16,10 +16,8 @@ namespace Controller
         private static void PupulateTreeView(TreeView treeView, IEnumerable<Entry> list)
         {
             treeView.Nodes.Clear();
-            foreach (var text in list.Select(item => item.Category).OrderBy(x => x).Distinct())
-                treeView.Nodes.Add(new TreeNode {Text = text, ImageIndex = 0});
-
-            //treeView.ExpandAll();
+            foreach (string text in list.Select(item => item.Category).OrderBy(x => x).Distinct())
+                treeView.Nodes.Add(new TreeNode {Text = text, ImageIndex = 1});
         }
 
         /// <summary>
@@ -31,17 +29,32 @@ namespace Controller
         public static void PopulateListView(IEnumerable<Entry> list, ListView lw, string category)
         {
             lw.Items.Clear();
-            foreach (var item in list.Where(x => x.Category == category))
+            foreach (Entry item in list.Where(x => x.Category == category))
             {
-                var listViewItem = new ListViewItem(item.Name);
-                listViewItem.SubItems.Add(item.Root);
-                listViewItem.SubItems.Add(item.DateChanged);
-                listViewItem.SubItems.Add(item.Description);
-                listViewItem.ToolTipText = item.Code;
-                lw.Items.Add(listViewItem);
+                AddListViewItem(lw, item, false);
             }
         }
 
+        /// <summary>
+        /// Allows to add items to ListView
+        /// </summary>
+        /// <param name="lw">target listview</param>
+        /// <param name="item">current entry</param>
+        /// <param name="isNew">Empty if new item</param>
+        public static void AddListViewItem(ListView lw, Entry item, bool isNew)
+        {
+            var listViewItem = new ListViewItem(item.Name);
+            listViewItem.SubItems.Add(item.Root);
+            listViewItem.Tag = item.ID;
+            if (!isNew)
+            {
+                listViewItem.SubItems.Add(item.DateChanged);
+                listViewItem.SubItems.Add(item.Description);
+                listViewItem.ToolTipText = item.Code;
+                listViewItem.ImageIndex = 0;
+            }
+            lw.Items.Add(listViewItem);
+        }
 
         /// <summary>
         /// Recursive method to find current node
@@ -64,11 +77,11 @@ namespace Controller
         /// <summary>
         /// Allows to select item in listview
         /// </summary>
-        /// <param name="lw">listview</param>
-        /// <param name="name">string Name to search</param>
-        public static void SelectListViewItemFromPath(ListView lw, string name)
+        /// <param name="lw">target listview</param>
+        /// <param name="id">id to search</param>
+        public static void SelectListViewItem(ListView lw, Int64 id)
         {
-            foreach (var item in lw.Items.Cast<ListViewItem>().Where(x => x.Text == name))
+            foreach (ListViewItem item in lw.Items.Cast<ListViewItem>().Where(x => Equals(x.Tag, id)))
             {
                 item.Selected = true;
                 return;
@@ -85,7 +98,8 @@ namespace Controller
         {
             return list
                 .Where(x => x.Category == currentCategory)
-                .Where(x => Contains(x.Code, stringToSearch) || Contains(x.Name, stringToSearch)).ToList();            
+                .Where(x => Contains(x.Code, stringToSearch) || Contains(x.Name, stringToSearch))
+                .ToList();
         }
 
         /// <summary>
@@ -103,7 +117,7 @@ namespace Controller
             PopulateListView(list, view.GetListView, currentCategory);
 
             SelectTreeViewNodeFromPath(view.GetTreeView.Nodes, view.EntryItem.Category);
-            SelectListViewItemFromPath(view.GetListView, view.EntryItem.Name);
+            SelectListViewItem(view.GetListView, view.EntryItem.ID);
             view.GetTreeView.EndUpdate();
         }
 

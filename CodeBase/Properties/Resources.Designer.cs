@@ -78,6 +78,20 @@ namespace CodeBase.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap basket_put {
+            get {
+                object obj = ResourceManager.GetObject("basket_put", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap basket_remove {
+            get {
+                object obj = ResourceManager.GetObject("basket_remove", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Category:.
         /// </summary>
@@ -211,6 +225,15 @@ namespace CodeBase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string ItemName {
+            get {
+                return ResourceManager.GetString("ItemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         internal static string Language {
@@ -225,15 +248,6 @@ namespace CodeBase.Properties {
         internal static string Last_Changed {
             get {
                 return ResourceManager.GetString("Last_Changed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        internal static string Name {
-            get {
-                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
         
@@ -306,15 +320,6 @@ namespace CodeBase.Properties {
         internal static string Syntax {
             get {
                 return ResourceManager.GetString("Syntax", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C#.
-        /// </summary>
-        internal static string TextHighlight {
-            get {
-                return ResourceManager.GetString("TextHighlight", resourceCulture);
             }
         }
         

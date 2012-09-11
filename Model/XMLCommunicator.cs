@@ -33,15 +33,15 @@ namespace Model
                     File.WriteAllText(FileName, "<?xml version=\"1.0\" encoding=\"windows-1251\"?><ArrayOfEntry xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" />");
 
             return (XDocument.Load(FileName).Descendants("Entry")
-                .Select(dr => new Entry
+                .Select(x => new Entry
                                   {
-                                      ID = dr.Element("ID").Value,
-                                      Root = dr.Element("Root").Value,
-                                      Name = dr.Element("Name").Value,
-                                      Description = dr.Element("Description").Value,
-                                      Code = dr.Element("Code").Value,
-                                      Category = dr.Element("Category").Value,
-                                      DateChanged = dr.Element("DateChanged").Value
+                                      ID = Int32.Parse(x.Element("ID").Value),
+                                      Root = x.Element("Root").Value,
+                                      Name = x.Element("Name").Value,
+                                      Description = x.Element("Description").Value,
+                                      Code = x.Element("Code").Value,
+                                      Category = x.Element("Category").Value,
+                                      DateChanged = x.Element("DateChanged").Value
                                   })).ToList();
         }
 
@@ -50,7 +50,7 @@ namespace Model
         /// </summary>
         /// <param name="key"></param>
         /// <param name="id">unique key value</param>
-        public void DeleteItem(string key, string id)
+        public void DeleteItem(string key, Int64 id)
         {
             List<Entry> list = GetList();
             list.Remove(list.Find(x => x.ID == id));
@@ -66,12 +66,12 @@ namespace Model
         /// <param name="item"> </param>
         /// <param name="key"></param>
         /// <param name="id">unique key value</param>
-        public void InsertOrUpdateItem(Entry item, string key, string id)
+        public Int64 InsertOrUpdateItem(Entry item, string key, Int64 id)
         {
             List<Entry> list = GetList();
             if (list.Find(x => x.ID == id) == null)
             {
-                item.ID = list.Count == 0 ? "1" : (Int32.Parse(list.Select(x => x.ID).Max()) + 2).ToString(CultureInfo.InvariantCulture);
+                item.ID = list.Count == 0 ? 1 : list.Select(x => x.ID).Max() + 2;
                 list.Add(item);
             }
             else
@@ -85,6 +85,7 @@ namespace Model
             {
                 new XmlSerializer(typeof (List<Entry>), new[] {typeof (Entry)}).Serialize(myWriter, list);
             }
+            return item.ID;
         }
 
         #endregion

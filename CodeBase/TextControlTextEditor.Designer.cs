@@ -121,7 +121,7 @@ namespace CodeBase
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.BackgroundImage = global::CodeBase.Properties.Resources.ImageExpand;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button2.Location = new System.Drawing.Point(721, 8);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(25, 25);
@@ -133,7 +133,7 @@ namespace CodeBase
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackgroundImage = global::CodeBase.Properties.Resources.ImageCollapse;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button1.Location = new System.Drawing.Point(696, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(25, 25);
@@ -157,10 +157,20 @@ namespace CodeBase
             // _cbLanguage
             // 
             this._cbLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._cbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbLanguage.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._cbLanguage.Items.AddRange(new object[] {
             "C#",
-            "VBNET"});
+            "VBNET",
+            "ASP/XHTML",
+            "HTML",
+            "C++.NET",
+            "Java",
+            "JavaScript",
+            "PHP",
+            "XML",
+            "BAT",
+            "Other"});
             this._cbLanguage.Location = new System.Drawing.Point(611, 10);
             this._cbLanguage.Name = "_cbLanguage";
             this._cbLanguage.Size = new System.Drawing.Size(79, 21);

@@ -95,8 +95,8 @@ namespace CodeBase
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1035, 573);
-            this.splitContainer1.SplitterDistance = 221;
+            this.splitContainer1.Size = new System.Drawing.Size(1008, 655);
+            this.splitContainer1.SplitterDistance = 215;
             this.splitContainer1.TabIndex = 1;
             // 
             // activeTreeView
@@ -105,14 +105,16 @@ namespace CodeBase
             this.activeTreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.activeTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.activeTreeView.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.activeTreeView.FullRowSelect = true;
             this.activeTreeView.HideSelection = false;
             this.activeTreeView.HotTracking = true;
             this.activeTreeView.ImageIndex = 0;
             this.activeTreeView.ImageList = this.imageList1;
             this.activeTreeView.Location = new System.Drawing.Point(0, 0);
             this.activeTreeView.Name = "activeTreeView";
-            this.activeTreeView.SelectedImageIndex = 0;
-            this.activeTreeView.Size = new System.Drawing.Size(217, 569);
+            this.activeTreeView.SelectedImageIndex = 1;
+            this.activeTreeView.ShowLines = false;
+            this.activeTreeView.Size = new System.Drawing.Size(211, 651);
             this.activeTreeView.TabIndex = 0;
             this.activeTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeViewAfterSelect);
             this.activeTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeViewSelectNodes);
@@ -121,7 +123,8 @@ namespace CodeBase
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "1346141706_gnome-fs-directory.png");
+            this.imageList1.Images.SetKeyName(0, "1347362097_page_white.png");
+            this.imageList1.Images.SetKeyName(1, "1347361321_folder_page_white.png");
             // 
             // splitContainer2
             // 
@@ -134,8 +137,8 @@ namespace CodeBase
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.listView1);
-            this.splitContainer2.Size = new System.Drawing.Size(810, 573);
-            this.splitContainer2.SplitterDistance = 137;
+            this.splitContainer2.Size = new System.Drawing.Size(789, 655);
+            this.splitContainer2.SplitterDistance = 155;
             this.splitContainer2.TabIndex = 1;
             // 
             // toolStrip1
@@ -149,9 +152,9 @@ namespace CodeBase
             this.deleteMenuItem,
             this.searchTextBox,
             this.toolStripLabel1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 597);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 679);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1035, 51);
+            this.toolStrip1.Size = new System.Drawing.Size(1008, 51);
             this.toolStrip1.TabIndex = 8;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -159,7 +162,7 @@ namespace CodeBase
             // 
             this.newMenuItem.AutoSize = false;
             this.newMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newMenuItem.Image = global::CodeBase.Properties.Resources.ImageAdd;
+            this.newMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newMenuItem.Image")));
             this.newMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.newMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newMenuItem.Name = "newMenuItem";
@@ -171,7 +174,7 @@ namespace CodeBase
             // 
             this.saveMenuItem.AutoSize = false;
             this.saveMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveMenuItem.Image = global::CodeBase.Properties.Resources.ImageEdit;
+            this.saveMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveMenuItem.Image")));
             this.saveMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.saveMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveMenuItem.Name = "saveMenuItem";
@@ -183,7 +186,7 @@ namespace CodeBase
             // 
             this.deleteMenuItem.AutoSize = false;
             this.deleteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.deleteMenuItem.Image = global::CodeBase.Properties.Resources.ImageDelete;
+            this.deleteMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteMenuItem.Image")));
             this.deleteMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.deleteMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteMenuItem.Name = "deleteMenuItem";
@@ -207,9 +210,9 @@ namespace CodeBase
             // 
             this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabel1.AutoSize = false;
-            this.toolStripLabel1.Image = global::CodeBase.Properties.Resources.ImageSearch;
+            this.toolStripLabel1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel1.Image")));
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(35, 35);
+            this.toolStripLabel1.Size = new System.Drawing.Size(32, 22);
             // 
             // menuStrip1
             // 
@@ -222,7 +225,7 @@ namespace CodeBase
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(1035, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1008, 24);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -254,7 +257,7 @@ namespace CodeBase
             // 
             // addToolStripMenuItem
             // 
-            this.addToolStripMenuItem.Image = global::CodeBase.Properties.Resources.ImageAdd;
+            this.addToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addToolStripMenuItem.Image")));
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             this.addToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.addToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
@@ -263,7 +266,7 @@ namespace CodeBase
             // 
             // saveToolStripMenuItem1
             // 
-            this.saveToolStripMenuItem1.Image = global::CodeBase.Properties.Resources.ImageEdit;
+            this.saveToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem1.Image")));
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
             this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem1.Size = new System.Drawing.Size(139, 22);
@@ -284,7 +287,7 @@ namespace CodeBase
             // 
             // removeToolStripMenuItem
             // 
-            this.removeToolStripMenuItem.Image = global::CodeBase.Properties.Resources.ImageDelete;
+            this.removeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeToolStripMenuItem.Image")));
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.removeToolStripMenuItem.Text = global::CodeBase.Properties.Resources.Remove;
@@ -301,6 +304,8 @@ namespace CodeBase
             // 
             // emptyToolStripMenuItem
             // 
+            this.emptyToolStripMenuItem.Image = global::CodeBase.Properties.Resources.ImageCollapse;
+            this.emptyToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.emptyToolStripMenuItem.Name = "emptyToolStripMenuItem";
             this.emptyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
             this.emptyToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
@@ -309,6 +314,8 @@ namespace CodeBase
             // 
             // detailsToolStripMenuItem
             // 
+            this.detailsToolStripMenuItem.Image = global::CodeBase.Properties.Resources.ImageExpand;
+            this.detailsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
             this.detailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
             this.detailsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
@@ -326,13 +333,17 @@ namespace CodeBase
             // 
             // saveToolStripMenuItem
             // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.saveToolStripMenuItem.Text = global::CodeBase.Properties.Resources.Save;
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItemClick);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SerializeToolStripMenuItemClick);
             // 
             // restoreToolStripMenuItem
             // 
+            this.restoreToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("restoreToolStripMenuItem.Image")));
+            this.restoreToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
             this.restoreToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.restoreToolStripMenuItem.Text = global::CodeBase.Properties.Resources.Restore;
@@ -370,6 +381,7 @@ namespace CodeBase
             // 
             // listView1
             // 
+            this.listView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.listView1.AutoArrange = false;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -390,7 +402,8 @@ namespace CodeBase
             this.listView1.Name = "listView1";
             this.listView1.ShowGroups = false;
             this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(806, 133);
+            this.listView1.Size = new System.Drawing.Size(785, 151);
+            this.listView1.SmallImageList = this.imageList1;
             this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -400,7 +413,7 @@ namespace CodeBase
             // 
             // column1
             // 
-            this.column1.Text = global::CodeBase.Properties.Resources.Name;
+            this.column1.Text = global::CodeBase.Properties.Resources.ItemName;
             this.column1.Width = 246;
             // 
             // column2
@@ -425,7 +438,7 @@ namespace CodeBase
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1035, 648);
+            this.ClientSize = new System.Drawing.Size(1008, 730);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -512,7 +525,7 @@ namespace CodeBase
             this.column3.Text = Resources.Last_Changed;
             this.column4.Text = Resources.Description;
             this.column2.Text = Resources.Syntax;
-            this.column1.Text = Resources.Name;
+            this.column1.Text = Resources.ItemName;
         }
 
         private CultureInfo GetCultureInfo(string language)

@@ -16,6 +16,18 @@ namespace CodeBase
             _cbLanguage.SelectedIndexChanged += (s, e) => SetHighlighting = ((ComboBox) s).Text;
         }
 
+        /// <summary>
+        /// Allows to set editor Highlight language
+        /// </summary>
+        private string SetHighlighting
+        {
+            set
+            {
+                _teCode.SetHighlighting(value);
+                _teCode.Refresh();
+            }
+        }
+
         #region ITextControl Members
 
         public string TcLanguage
@@ -58,40 +70,6 @@ namespace CodeBase
         }
 
 
-        /// <summary>
-        /// Allows to set editor Highlight language
-        /// </summary>
-        public string SetHighlighting
-        {
-            set
-            {
-                switch (value)
-                {
-                    case "C#":
-                        {
-                            _teCode.SetHighlighting("C#");
-                            break;
-                        }
-                    case "VBNET":
-                        {
-                            _teCode.SetHighlighting("VBNET");
-                            break;
-                        }
-                    default:
-                        {
-                            _teCode.SetHighlighting("");
-                            break;
-                        }
-                }
-                _teCode.Refresh();
-            }
-        }
-
-
-        /// <summary>
-        /// Allows to fill category combobox
-        /// </summary>
-        /// <param name="list">input list</param>
         public void FillCategory(IEnumerable<Entry> list)
         {
             _tbCategory.Items.Clear();

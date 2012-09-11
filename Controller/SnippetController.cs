@@ -7,7 +7,7 @@ namespace Controller
 {
     public class SnippetController
     {
-        private readonly ICommunicator _currentCommunicator;
+        private readonly ICommunicator _communicator;
         private readonly ISnippetView _view;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Controller
         /// <param name="communicator">MVC model's communicate class</param>
         public SnippetController(ISnippetView view, ICommunicator communicator)
         {
-            _currentCommunicator = communicator;
+            _communicator = communicator;
             _view = view;
             view.SetController(this);
         }
@@ -44,7 +44,7 @@ namespace Controller
         /// </summary>
         public void LoadView()
         {
-            Entries = CommunicatorSwitcher.GetCommunicator.GetList();
+            Entries = _communicator.GetList();
         }
 
         /// <summary>
@@ -54,13 +54,12 @@ namespace Controller
         {
             _view.EntryItem = new Entry
                                   {
-                                      Root = "C#",
                                       Category = CurrentCategory,
                                       Name = "New item in " + CurrentCategory
                                   };
 
-            _view.GetListView.Items.Add(new ListViewItem(_view.EntryItem.Name));
-            ControlsHelper.SelectListViewItemFromPath(_view.GetListView, _view.EntryItem.Name);
+            ControlsHelper.AddListViewItem(_view.GetListView, _view.EntryItem, true);
+            ControlsHelper.SelectListViewItem(_view.GetListView, _view.EntryItem.ID);
             _view.GetUserControl.Visible = true;
         }
 
@@ -70,7 +69,7 @@ namespace Controller
         public void Delete()
         {
             if (_view.GetListView.SelectedItems.Count == 0) return;
-            _currentCommunicator.DeleteItem("ID", _view.EntryItem.ID);
+            _communicator.DeleteItem("ID", _view.EntryItem.ID);
             LoadView();
             _view.GetUserControl.Visible = false;
         }
@@ -81,17 +80,20 @@ namespace Controller
         public void Save()
         {
             if (_view.GetListView.SelectedItems.Count == 0) return;
-            _currentCommunicator.InsertOrUpdateItem(_view.EntryItem, "ID", _view.EntryItem.ID);
+            Entry item = _view.EntryItem;
+            item.ID = _communicator.ModifyItem(_view.EntryItem, "ID", _view.EntryItem.ID);
+            _view.EntryItem = item;
             LoadView();
         }
 
         /// <summary>
         /// Allows to serialize selected entry
         /// </summary>
+        /// <returns>true is serialization succeeded</returns>
         public bool Serialize()
         {
-            if (_view.GetListView.SelectedItems.Count == 0) return false;
-            return XmlSerialize.SerializeBaseClass(Entries, _view.GetListView.SelectedItems[0].Text, _view.GetTreeView.SelectedNode.Text) != null;
+            if (_view.GetListView.SelectedItems.Count == 0 || _view.GetListView.SelectedItems[0].Tag == null) return false;
+            return XmlSerialize.SerializeBaseClass(Entries, _view.GetListView.SelectedItems[0].Tag.ToString()) != null;
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace Controller
                 dialog.InitialDirectory = string.Format("{0}\\serialized\\", Application.StartupPath);
 
                 if (dialog.ShowDialog() != DialogResult.OK) return;
-                _view.EntryItem = XmlSerialize.DeserializeBaseClass(_currentCommunicator, dialog.FileName);
+                _view.EntryItem = XmlSerialize.DeserializeBaseClass(_communicator, dialog.FileName);
             }
             LoadView();
         }
@@ -115,17 +117,15 @@ namespace Controller
         /// </summary>
         public void AfterSelectEvent(ListView lw, TreeViewEventArgs e)
         {
-            CurrentCategory = e.Node.Text;
-            ControlsHelper.PopulateListView(Entries, lw, e.Node.Text);
+            ControlsHelper.PopulateListView(Entries, lw, CurrentCategory = e.Node.Text);
             _view.GetUserControl.Visible = false;
 
             _view.SearchBoxText = CurrentCategory;
         }
 
 
-        public void ListViewSelectNodes(object sender)
+        public void ListViewSelectNodes(ListView lw)
         {
-            var lw = (ListView) sender;
             if (lw.SelectedItems.Count == 0)
             {
                 _view.GetUserControl.Visible = false;
@@ -134,15 +134,14 @@ namespace Controller
 
             try
             {
-                _view.EntryItem = Entries.First(x => x.Name == lw.SelectedItems[0].Text);
+                _view.EntryItem = Entries.First(x => Equals(x.ID, lw.SelectedItems[0].Tag));
             }
             catch
             {
                 _view.EntryItem = new Entry
                                       {
                                           Name = _view.GetListView.SelectedItems[0].SubItems[0].Text,
-                                          Category = CurrentCategory,
-                                          Root = "C#"
+                                          Category = CurrentCategory
                                       };
             }
             _view.GetUserControl.Visible = true;

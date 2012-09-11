@@ -12,7 +12,7 @@
     <AssemblyName>CodeBase</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>Resources\text_code_colored.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\codebase.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -99,29 +99,37 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+    <EmbeddedResource Include="Properties\Resources.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="TextControlTextEditor.resx">
       <DependentUpon>TextControlTextEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text_code_add.ico" />
-    <None Include="Resources\edit_3664.png" />
-    <None Include="Resources\editcut_1453.png" />
-    <None Include="Resources\editpaste_1263.png" />
     <None Include="Resources\editcut_4381.ico" />
     <None Include="Resources\editpaste_2861.ico" />
-    <None Include="Resources\accessories-text-editor_9039.png" />
-    <None Include="Resources\add2-_4691.png" />
     <None Include="Resources\onebit_32_3404.png" />
     <None Include="Resources\Action-edit-add-icon.png" />
     <None Include="Resources\Actions-edit-delete-icon.png" />
     <None Include="Resources\Actions-pencil-icon.png" />
     <None Include="Resources\Magnifier-icon.png" />
+    <None Include="Resources\1347359515_page_white_edit.png" />
+    <None Include="Resources\1347359713_page_white_delete.png" />
+    <None Include="Resources\1347359862_page_white_add.png" />
+    <None Include="Resources\1347359845_bullet_arrow_up.png" />
+    <None Include="Resources\1347359898_bullet_arrow_down.png" />
+    <None Include="Resources\1347360035_table_tab_search.png" />
+    <None Include="Resources\1347360077_magnifier_zoom_in.png" />
+    <None Include="Resources\1347360658_basket_put.png" />
+    <None Include="Resources\1347360663_basket_remove.png" />
+    <None Include="Resources\1347362408_bullet_arrow_up.png" />
+    <None Include="Resources\1347362413_bullet_arrow_down.png" />
+    <None Include="Resources\1347362838_basket_put.png" />
+    <None Include="Resources\1347362844_basket_remove.png" />
+    <Content Include="Resources\codebase.ico" />
     <Content Include="Resources\text_code_colored.ico" />
-    <None Include="Resources\text_code_edit.ico" />
-    <None Include="Resources\text_code_delete.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

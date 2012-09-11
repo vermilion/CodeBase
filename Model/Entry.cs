@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System;
+
+namespace Model
 {
     public class Entry
     {
@@ -6,13 +8,14 @@
         public string Code;
         public string DateChanged;
         public string Description;
-        public string ID;
+        public Int64 ID;
         public string Name;
         public string Root;
 
         public Entry()
         {
-            ID = "-1";
+            ID = -1;
+            Root = "C#";
         }
     }
 }

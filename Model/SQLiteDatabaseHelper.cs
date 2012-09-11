@@ -16,7 +16,7 @@ namespace Model
         /// <param name="inputFile">The File containing the DB</param>
         public SQLiteDatabaseHelper(string inputFile)
         {
-            _dbConnection = string.Format("Data Source={0}", inputFile);
+            _dbConnection = string.Format("Data Source={0};Version=3;Pooling=True;Max Pool Size=100;", inputFile);
         }
 
         /// <summary>
@@ -52,6 +52,20 @@ namespace Model
             return string.Empty;
         }
 
+        /// <summary>
+        /// Allows to get last inserted row
+        /// </summary>
+        /// <returns>rowid</returns>
+        public Int64 GetLastInsertRowId()
+        {
+            using (var cnn = new SQLiteConnection(_dbConnection))
+            {
+                cnn.Open();
+                var mycommand = new SQLiteCommand(cnn) {CommandText = "Select last_insert_rowid();"};
+                mycommand.ExecuteNonQuery();
+                return Int64.Parse(mycommand.ExecuteScalar().ToString());
+            }
+        }
 
         /// <summary>
         /// Allows the programmer to easily update rows in the DB.
@@ -62,7 +76,7 @@ namespace Model
         /// <returns>A boolean true or false to signify success or failure.</returns>
         public void Update(string tableName, Dictionary<string, string> data, string whereCase)
         {
-            string vals = "";
+            string vals = string.Empty;
             if (data.Count >= 1)
             {
                 vals = data.Aggregate(vals, (current, val) => String.Format("{0} {1} = '{2}',", current, val.Key, val.Value));
@@ -80,8 +94,8 @@ namespace Model
         /// <returns>A boolean true or false to signify success or failure.</returns>
         public void Insert(string tableName, Dictionary<string, string> data)
         {
-            string columns = "";
-            string values = "";
+            string columns = string.Empty;
+            string values = string.Empty;
             foreach (var val in data)
             {
                 columns += String.Format(" {0},", val.Key);
@@ -96,8 +110,8 @@ namespace Model
         /// Allows to fill dataset with dbdata
         /// </summary>
         /// <param name="sql">sql query</param>
-        /// <returns>Filled dataset</returns>
-        public DataSet FillDataset(string sql)
+        /// <returns>Filled DataTable</returns>
+        public DataTable FillDataset(string sql)
         {
             var ds = new DataSet();
             using (var cnn = new SQLiteConnection(_dbConnection))
@@ -105,7 +119,7 @@ namespace Model
                 cnn.Open();
                 new SQLiteDataAdapter(sql, cnn).Fill(ds);
             }
-            return ds;
+            return ds.Tables[0];
         }
     }
 }

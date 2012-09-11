@@ -1,35 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Model
 {
     public interface ICommunicator
     {
-        string FileName { get; }
-        List<Entry> GetList();
-        void DeleteItem(string key, string id);
-        void InsertOrUpdateItem(Entry item, string key, string id);
-    }
-
-    public static class CommunicatorSwitcher
-    {
         /// <summary>
-        /// Allows to choose current communicator
+        /// Allows to convert Dataset to List of class
         /// </summary>
-        public static ICommunicator GetCommunicator
-        {
-            get
-            {
-                switch (ConfigurationManager.AppSettings["Communicator"])
-                {
-                    case "SQLite":
-                        return new SQLiteCommunicator();
-                    case "XML":
-                        return new XMLCommunicator();
-                    default:
-                        return new SQLiteCommunicator();
-                }
-            }
-        }
+        /// <returns>List of class</returns>
+        List<Entry> GetList();
+
+        /// <summary>
+        /// Allows to delete item from database by Key
+        /// </summary>
+        /// <param name="key">unique key name</param>
+        /// <param name="id">unique key value</param>
+        void DeleteItem(string key, Int64 id);
+
+        /// <summary>
+        /// Allows to insert or update item in database by Key
+        /// </summary>
+        /// <param name="item"> </param>
+        /// <param name="key">unique key name</param>
+        /// <param name="id">unique key value</param>
+        /// <returns>rowid</returns>
+        Int64 ModifyItem(Entry item, string key, Int64 id);
     }
 }

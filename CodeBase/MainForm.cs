@@ -26,45 +26,34 @@ namespace CodeBase
             ((UserControl) _currentTextControl).Dock = DockStyle.Fill;
             ((UserControl) _currentTextControl).Visible = false;
 
-
             GetListView.Layout += (s, e) => GetListView.Columns[GetListView.Columns.Count - 1].Width = -2;
             exitToolStripMenuItem.Click += (s, e) => Close();
+
+            //GetListView.SmallImageList = imageList2;
         }
 
         /// <summary>
         /// Entry Id property
         /// </summary>
-        private string EntryId { get; set; }
+        private Int64 EntryId { get; set; }
 
         #region ISnippetView Members
 
-        /// <summary>
-        /// Listview with category items
-        /// </summary>
         public ListView GetListView
         {
             get { return listView1; }
         }
 
-        /// <summary>
-        /// Usercontrol with dataedit
-        /// </summary>
         public UserControl GetUserControl
         {
             get { return (UserControl) _currentTextControl; }
         }
 
-        /// <summary>
-        /// Allows to get current treeview name
-        /// </summary>
         public TreeView GetTreeView
         {
             get { return activeTreeView; }
         }
 
-        /// <summary>
-        /// Allows to set or get current entry item
-        /// </summary>
         public Entry EntryItem
         {
             get
@@ -91,19 +80,13 @@ namespace CodeBase
             }
         }
 
-        /// <summary>
-        /// Allows to implement MVC's controller in View
-        /// </summary>
-        /// <param name="controller">current controller</param>
+
         public void SetController(SnippetController controller)
         {
             _controller = controller;
         }
 
-        /// <summary>
-        /// Allows to fill GetUserControl combobox with items
-        /// </summary>
-        /// <param name="list">target list</param>
+
         public void FillCategory(IEnumerable<Entry> list)
         {
             _currentTextControl.FillCategory(list);
@@ -111,7 +94,7 @@ namespace CodeBase
 
         public string SearchBoxText
         {
-            get { return searchTextBox.Text; }
+            private get { return searchTextBox.Text; }
             set { searchTextBox.Text = string.Format(Resources.Search + " {0}", value); }
         }
 
@@ -126,7 +109,7 @@ namespace CodeBase
         private void OnSearchTextBoxTextChanged(object s, EventArgs e)
         {
             if (SearchBoxText.Contains(Resources.Search) || SearchBoxText.Length <= 0) return;
-            var entry = ControlsHelper.SearchInCategory(_controller.Entries, _controller.CurrentCategory, SearchBoxText);
+            IEnumerable<Entry> entry = ControlsHelper.SearchInCategory(_controller.Entries, _controller.CurrentCategory, SearchBoxText);
             ControlsHelper.PopulateListView(entry, GetListView, _controller.CurrentCategory);
         }
 
@@ -145,7 +128,7 @@ namespace CodeBase
         {
             if (_itemOnMouseDown != null && GetListView.SelectedIndices.Count == 0)
                 return;
-            _controller.ListViewSelectNodes(s);
+            _controller.ListViewSelectNodes((ListView) s);
         }
 
         private void LvTransactionsMouseDown(object sender, MouseEventArgs e)
@@ -193,7 +176,7 @@ namespace CodeBase
                 Clipboard.SetText(_currentTextControl.TcCode);
         }
 
-        private void SaveToolStripMenuItemClick(object sender, EventArgs e)
+        private void SerializeToolStripMenuItemClick(object sender, EventArgs e)
         {
             if (GetListView.SelectedItems.Count > 0 && _controller.Serialize())
                 MessageBox.Show(Resources.Done);
@@ -208,16 +191,19 @@ namespace CodeBase
         {
             russianToolStripMenuItem.Checked = false;
             englishToolStripMenuItem.Checked = true;
-            Thread.CurrentThread.CurrentUICulture = GetCultureInfo("en");
-            ApplyResources();
-            _currentTextControl.ApplyResources();
+            ApplyCulture("en");
         }
 
         private void RussianToolStripMenuItemClick(object sender, EventArgs e)
         {
             russianToolStripMenuItem.Checked = true;
             englishToolStripMenuItem.Checked = false;
-            Thread.CurrentThread.CurrentUICulture = GetCultureInfo("ru");
+            ApplyCulture("ru");
+        }
+
+        private void ApplyCulture(string language)
+        {
+            Thread.CurrentThread.CurrentUICulture = GetCultureInfo(language);
             ApplyResources();
             _currentTextControl.ApplyResources();
         }
@@ -225,9 +211,7 @@ namespace CodeBase
         private void MainFormResize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
-            {
                 Hide();
-            }
         }
 
         private void NotifyIconDoubleClick(object sender, EventArgs e)
@@ -239,8 +223,8 @@ namespace CodeBase
             }
             else
             {
-                WindowState = FormWindowState.Minimized;
                 Hide();
+                WindowState = FormWindowState.Minimized;
             }
         }
     }
