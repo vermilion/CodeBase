@@ -189,4 +189,13 @@
   <data name="English" xml:space="preserve">
     <value>Английский</value>
   </data>
+  <data name="AutoIndent_selected_text" xml:space="preserve">
+    <value>Автоотступ выделенного</value>
+  </data>
+  <data name="Decrease_Indent" xml:space="preserve">
+    <value>Уменьшить отступ</value>
+  </data>
+  <data name="Increase_Indent" xml:space="preserve">
+    <value>Увеличить отступ</value>
+  </data>
 </root>

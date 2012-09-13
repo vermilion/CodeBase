@@ -48,7 +48,7 @@ namespace Model
             _db.ExecuteNonQuery(String.Format("delete from {0} where {1};", TableName, key + "=" + id));
         }
 
-        public Int64 ModifyItem(Entry item, string key, Int64 id)
+        public Int64 ModifyItem<T>(T item, string key, Int64 id) where T : class
         {
             Dictionary<string, string> dict = item.GetType()
                 .GetFields()

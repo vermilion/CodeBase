@@ -30,7 +30,7 @@ namespace CodeBase
         /// </summary>
         private void InitializeComponent()
         {
-            this._teCode = new ICSharpCode.TextEditor.TextEditorControl();
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this._tbCategory = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -40,22 +40,15 @@ namespace CodeBase
             this.button1 = new System.Windows.Forms.Button();
             this._tbName = new System.Windows.Forms.TextBox();
             this._cbLanguage = new System.Windows.Forms.ComboBox();
+            this._teCode = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.autoIndentCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.increaseIndentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decreaseIndentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // _teCode
-            // 
-            this._teCode.CausesValidation = false;
-            this._teCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._teCode.EnableFolding = false;
-            this._teCode.IndentStyle = ICSharpCode.TextEditor.Document.IndentStyle.Auto;
-            this._teCode.IsReadOnly = false;
-            this._teCode.Location = new System.Drawing.Point(0, 112);
-            this._teCode.Name = "_teCode";
-            this._teCode.ShowHRuler = true;
-            this._teCode.Size = new System.Drawing.Size(749, 432);
-            this._teCode.TabIndex = 7;
             // 
             // panel1
             // 
@@ -91,7 +84,7 @@ namespace CodeBase
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 17);
             this.label5.TabIndex = 11;
-            this.label5.Text = "Category:";
+            this.label5.Text = Resources.Category;
             // 
             // _tbDescription
             // 
@@ -161,20 +154,64 @@ namespace CodeBase
             this._cbLanguage.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._cbLanguage.Items.AddRange(new object[] {
             "C#",
-            "VBNET",
-            "ASP/XHTML",
+            "VB",
             "HTML",
-            "C++.NET",
-            "Java",
-            "JavaScript",
+            "SQL",
             "PHP",
-            "XML",
-            "BAT",
+            "JS",
             "Other"});
             this._cbLanguage.Location = new System.Drawing.Point(611, 10);
             this._cbLanguage.Name = "_cbLanguage";
             this._cbLanguage.Size = new System.Drawing.Size(79, 21);
             this._cbLanguage.TabIndex = 2;
+            // 
+            // _teCode
+            // 
+            this._teCode.AllowDrop = true;
+            this._teCode.AutoScrollMinSize = new System.Drawing.Size(27, 15);
+            this._teCode.BackBrush = null;
+            this._teCode.ContextMenuStrip = this.contextMenuStrip1;
+            this._teCode.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this._teCode.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this._teCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._teCode.Font = new System.Drawing.Font("Courier New", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._teCode.Location = new System.Drawing.Point(0, 112);
+            this._teCode.Name = "_teCode";
+            this._teCode.Paddings = new System.Windows.Forms.Padding(0);
+            this._teCode.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this._teCode.ShowFoldingLines = true;
+            this._teCode.Size = new System.Drawing.Size(749, 432);
+            this._teCode.TabIndex = 17;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoIndentCurrentToolStripMenuItem,
+            this.increaseIndentToolStripMenuItem,
+            this.decreaseIndentToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(203, 70);
+            // 
+            // autoIndentCurrentToolStripMenuItem
+            // 
+            this.autoIndentCurrentToolStripMenuItem.Name = "autoIndentCurrentToolStripMenuItem";
+            this.autoIndentCurrentToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.autoIndentCurrentToolStripMenuItem.Text = Resources.AutoIndent_selected_text;
+            this.autoIndentCurrentToolStripMenuItem.Click += new System.EventHandler(this.AutoIndentCurrentToolStripMenuItemClick);
+            // 
+            // increaseIndentToolStripMenuItem
+            // 
+            this.increaseIndentToolStripMenuItem.Name = "increaseIndentToolStripMenuItem";
+            this.increaseIndentToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.increaseIndentToolStripMenuItem.Text = Resources.Increase_Indent;
+            this.increaseIndentToolStripMenuItem.Click += new System.EventHandler(this.IncreaseIndentToolStripMenuItemClick);
+            // 
+            // decreaseIndentToolStripMenuItem
+            // 
+            this.decreaseIndentToolStripMenuItem.Name = "decreaseIndentToolStripMenuItem";
+            this.decreaseIndentToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.decreaseIndentToolStripMenuItem.Text = Resources.Decrease_Indent;
+            this.decreaseIndentToolStripMenuItem.Click += new System.EventHandler(this.DecreaseIndentToolStripMenuItemClick);
             // 
             // TextControlTextEditor
             // 
@@ -188,6 +225,7 @@ namespace CodeBase
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -195,11 +233,13 @@ namespace CodeBase
         public void ApplyResources()
         {
             this.label5.Text = Resources.Category;
+            this.autoIndentCurrentToolStripMenuItem.Text = Resources.AutoIndent_selected_text;
+            this.increaseIndentToolStripMenuItem.Text = Resources.Increase_Indent;
+            this.decreaseIndentToolStripMenuItem.Text = Resources.Decrease_Indent;
         }
 
         #endregion
 
-        private ICSharpCode.TextEditor.TextEditorControl _teCode;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox _tbDescription;
         private System.Windows.Forms.Label label5;
@@ -209,5 +249,10 @@ namespace CodeBase
         private System.Windows.Forms.TextBox _tbName;
         private System.Windows.Forms.ComboBox _cbLanguage;
         private System.Windows.Forms.Button button2;
+        private FastColoredTextBoxNS.FastColoredTextBox _teCode;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem autoIndentCurrentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem increaseIndentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem decreaseIndentToolStripMenuItem;
     }
 }

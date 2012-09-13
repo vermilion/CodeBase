@@ -15,19 +15,10 @@ namespace Controller
         /// <returns></returns>
         public static object LoadXml(Type type, string filename)
         {
-            object result;
             using (var reader = new StreamReader(filename, Encoding.Default))
             {
-                try
-                {
-                    result = new XmlSerializer(type).Deserialize(reader);
-                }
-                finally
-                {
-                    reader.Close();
-                }
+                return new XmlSerializer(type).Deserialize(reader);
             }
-            return result;
         }
 
         /// <summary>
@@ -39,14 +30,7 @@ namespace Controller
         {
             using (var writer = new StreamWriter(filename, false, Encoding.Default))
             {
-                try
-                {
-                    new XmlSerializer(obj.GetType()).Serialize(writer, obj);
-                }
-                finally
-                {
-                    writer.Close();
-                }
+                new XmlSerializer(obj.GetType()).Serialize(writer, obj);
             }
         }
     }

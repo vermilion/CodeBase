@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
 using Model;
 
 namespace CodeBase
@@ -23,8 +24,31 @@ namespace CodeBase
         {
             set
             {
-                _teCode.SetHighlighting(value);
-                _teCode.Refresh();
+                switch (value)
+                {
+                    case "C#":
+                        _teCode.Language = Language.CSharp;
+                        break;
+                    case "VB":
+                        _teCode.Language = Language.VB;
+                        break;
+                    case "HTML":
+                        _teCode.Language = Language.HTML;
+                        break;
+                    case "SQL":
+                        _teCode.Language = Language.SQL;
+                        break;
+                    case "PHP":
+                        _teCode.Language = Language.PHP;
+                        break;
+                    case "JS":
+                        _teCode.Language = Language.JS;
+                        break;
+                    default:
+                        _teCode.Language = Language.Custom;
+                        break;
+                }
+                _teCode.OnSyntaxHighlight(new TextChangedEventArgs(_teCode.Range));
             }
         }
 
@@ -57,9 +81,9 @@ namespace CodeBase
             get { return _teCode.Text; }
             set
             {
-                _teCode.BeginUpdate();
                 _teCode.Text = value;
-                _teCode.EndUpdate();
+                _teCode.Selection.Start = Place.Empty;
+                _teCode.DoCaretVisible();
             }
         }
 
@@ -98,6 +122,21 @@ namespace CodeBase
         private void Button2Click(object sender, EventArgs e)
         {
             ShowDetails();
+        }
+
+        private void AutoIndentCurrentToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            _teCode.DoAutoIndent();
+        }
+
+        private void IncreaseIndentToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            _teCode.IncreaseIndent();
+        }
+
+        private void DecreaseIndentToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            _teCode.DecreaseIndent();
         }
     }
 }

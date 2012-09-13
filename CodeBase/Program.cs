@@ -16,9 +16,11 @@ namespace CodeBase
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var view = new MainForm();
-            new SnippetController(view, new SQLiteCommunicator()).LoadView();
-            Application.Run(view);
+            using (var view = new MainForm())
+            {
+                new SnippetController(view, new SQLiteCommunicator()).LoadView();
+                Application.Run(view);
+            }
         }
     }
 }

@@ -28,8 +28,6 @@ namespace CodeBase
 
             GetListView.Layout += (s, e) => GetListView.Columns[GetListView.Columns.Count - 1].Width = -2;
             exitToolStripMenuItem.Click += (s, e) => Close();
-
-            //GetListView.SmallImageList = imageList2;
         }
 
         /// <summary>
@@ -71,11 +69,11 @@ namespace CodeBase
             }
             set
             {
+                _currentTextControl.TcLanguage = value.Root;
                 _currentTextControl.TcName = value.Name;
                 _currentTextControl.TcDescription = value.Description;
                 _currentTextControl.TcCode = value.Code;
                 _currentTextControl.TcCategory = value.Category;
-                _currentTextControl.TcLanguage = value.Root;
                 EntryId = value.ID;
             }
         }
@@ -206,6 +204,16 @@ namespace CodeBase
             Thread.CurrentThread.CurrentUICulture = GetCultureInfo(language);
             ApplyResources();
             _currentTextControl.ApplyResources();
+            SaveSettings("Language", language);
+        }
+
+        private static void SaveSettings(string parameter, string value)
+        {
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            configuration.AppSettings.Settings.Remove(parameter);
+            configuration.AppSettings.Settings.Add(parameter, value);
+            configuration.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         private void MainFormResize(object sender, EventArgs e)

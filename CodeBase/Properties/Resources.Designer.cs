@@ -70,6 +70,15 @@ namespace CodeBase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AutoIndent selected text.
+        /// </summary>
+        internal static string AutoIndent_selected_text {
+            get {
+                return ResourceManager.GetString("AutoIndent_selected_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup.
         /// </summary>
         internal static string Backup {
@@ -107,6 +116,15 @@ namespace CodeBase.Properties {
         internal static string Copy_Code {
             get {
                 return ResourceManager.GetString("Copy_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decrease Indent.
+        /// </summary>
+        internal static string Decrease_Indent {
+            get {
+                return ResourceManager.GetString("Decrease_Indent", resourceCulture);
             }
         }
         
@@ -221,6 +239,15 @@ namespace CodeBase.Properties {
             get {
                 object obj = ResourceManager.GetObject("ImageSearch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increase Indent.
+        /// </summary>
+        internal static string Increase_Indent {
+            get {
+                return ResourceManager.GetString("Increase_Indent", resourceCulture);
             }
         }
         

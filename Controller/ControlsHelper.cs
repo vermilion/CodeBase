@@ -17,8 +17,11 @@ namespace Controller
         {
             treeView.Nodes.Clear();
             foreach (string text in list.Select(item => item.Category).OrderBy(x => x).Distinct())
+            {
                 treeView.Nodes.Add(new TreeNode {Text = text, ImageIndex = 1});
+            }
         }
+
 
         /// <summary>
         /// Allows to populate listview
@@ -34,6 +37,7 @@ namespace Controller
                 AddListViewItem(lw, item, false);
             }
         }
+
 
         /// <summary>
         /// Allows to add items to ListView

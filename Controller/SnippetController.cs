@@ -141,7 +141,7 @@ namespace Controller
                 _view.EntryItem = new Entry
                                       {
                                           Name = _view.GetListView.SelectedItems[0].SubItems[0].Text,
-                                          Category = CurrentCategory
+                                          Category = CurrentCategory,
                                       };
             }
             _view.GetUserControl.Visible = true;

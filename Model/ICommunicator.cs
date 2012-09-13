@@ -25,6 +25,7 @@ namespace Model
         /// <param name="key">unique key name</param>
         /// <param name="id">unique key value</param>
         /// <returns>rowid</returns>
-        Int64 ModifyItem(Entry item, string key, Int64 id);
+        Int64 ModifyItem<T>(T item, string key, Int64 id)
+            where T : class;
     }
 }

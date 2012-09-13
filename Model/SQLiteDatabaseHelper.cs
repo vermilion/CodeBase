@@ -61,9 +61,11 @@ namespace Model
             using (var cnn = new SQLiteConnection(_dbConnection))
             {
                 cnn.Open();
-                var mycommand = new SQLiteCommand(cnn) {CommandText = "Select last_insert_rowid();"};
-                mycommand.ExecuteNonQuery();
-                return Int64.Parse(mycommand.ExecuteScalar().ToString());
+                using (var mycommand = new SQLiteCommand(cnn) {CommandText = "Select last_insert_rowid();"})
+                {
+                    mycommand.ExecuteNonQuery();
+                    return Int64.Parse(mycommand.ExecuteScalar().ToString());
+                }
             }
         }
 
@@ -77,7 +79,7 @@ namespace Model
         public void Update(string tableName, Dictionary<string, string> data, string whereCase)
         {
             string vals = string.Empty;
-            if (data.Count >= 1)
+            if (data.Count > 0)
             {
                 vals = data.Aggregate(vals, (current, val) => String.Format("{0} {1} = '{2}',", current, val.Key, val.Value));
                 vals = vals.Substring(0, vals.Length - 1);
@@ -113,13 +115,15 @@ namespace Model
         /// <returns>Filled DataTable</returns>
         public DataTable FillDataset(string sql)
         {
-            var ds = new DataSet();
-            using (var cnn = new SQLiteConnection(_dbConnection))
+            using (var ds = new DataSet())
             {
-                cnn.Open();
-                new SQLiteDataAdapter(sql, cnn).Fill(ds);
+                using (var cnn = new SQLiteConnection(_dbConnection))
+                {
+                    cnn.Open();
+                    new SQLiteDataAdapter(sql, cnn).Fill(ds);
+                }
+                return ds.Tables[0];
             }
-            return ds.Tables[0];
         }
     }
 }

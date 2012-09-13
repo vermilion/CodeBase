@@ -16,6 +16,7 @@ namespace Model
         {
             ID = -1;
             Root = "C#";
+            Code = string.Empty;
         }
     }
 }
