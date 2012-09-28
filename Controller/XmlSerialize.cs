@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Model;
 
-namespace Controller
+namespace Presenter
 {
     public static class XmlSerialize
     {
@@ -26,11 +26,11 @@ namespace Controller
         /// <param name="list">List to be inserted to</param>
         /// <param name="id">item Name</param>
         /// <returns>Entry item</returns>
-        public static Entry SerializeBaseClass(List<Entry> list, string id)
+        public static Entry SerializeBaseClass(List<Entry> list, object id)
         {
             try
             {
-                Entry item = list.Find(x => x.ID == Int64.Parse(id));
+                Entry item = list.Find(x => x.ID == Int64.Parse(id.ToString()));
                 XmlHelper.SaveXml(item, string.Format(@"serialized\{0}_{1}.xml", item.Category, item.Name));
                 return item;
             }

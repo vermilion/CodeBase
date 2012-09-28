@@ -12,7 +12,7 @@ namespace CodeBase
         public TextControlTextEditor()
         {
             InitializeComponent();
-            HideDetails();
+            ManageDetailsPanel(false);
 
             _cbLanguage.SelectedIndexChanged += (s, e) => SetHighlighting = ((ComboBox) s).Text;
         }
@@ -54,7 +54,7 @@ namespace CodeBase
 
         #region ITextControl Members
 
-        public string TcLanguage
+        public string EditLanguage
         {
             get { return _cbLanguage.Text; }
             set
@@ -64,19 +64,19 @@ namespace CodeBase
             }
         }
 
-        public string TcName
+        public string EditName
         {
             get { return _tbName.Text; }
             set { _tbName.Text = value; }
         }
 
-        public string TcDescription
+        public string EditDescription
         {
             get { return _tbDescription.Text; }
             set { _tbDescription.Text = value; }
         }
 
-        public string TcCode
+        public string EditCode
         {
             get { return _teCode.Text; }
             set
@@ -87,41 +87,43 @@ namespace CodeBase
             }
         }
 
-        public string TcCategory
+        public string EditCategory
         {
             get { return _tbCategory.Text; }
             set { _tbCategory.Text = value; }
         }
 
 
-        public void FillCategory(IEnumerable<Entry> list)
+        public void FillCategory(IEnumerable<Entry> list, Func<Entry, object> f)
         {
             _tbCategory.Items.Clear();
-            _tbCategory.Items.AddRange(list.Select(x => (object) x.Category).Distinct().OrderBy(x => x).ToArray());
+            _tbCategory.Items.AddRange(list.Select(f).Distinct().OrderBy(x => x).ToArray());
         }
 
-        public void HideDetails()
+        public void ManageDetailsPanel(bool show)
         {
-            panel1.Visible = false;
-            panel2.Height = 38;
-        }
-
-        public void ShowDetails()
-        {
-            panel1.Visible = true;
-            panel2.Height = 112;
+            if (show)
+            {
+                panel1.Visible = true;
+                panel2.Height = 112;
+            }
+            else
+            {
+                panel1.Visible = false;
+                panel2.Height = 34;
+            }
         }
 
         #endregion
 
         private void Button1Click(object sender, EventArgs e)
         {
-            HideDetails();
+            ManageDetailsPanel(false);
         }
 
         private void Button2Click(object sender, EventArgs e)
         {
-            ShowDetails();
+            ManageDetailsPanel(true);
         }
 
         private void AutoIndentCurrentToolStripMenuItemClick(object sender, EventArgs e)

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using Model;
 
-namespace Controller
+namespace Presenter
 {
     public interface ISnippetView
     {
@@ -29,10 +29,10 @@ namespace Controller
         Entry EntryItem { get; set; }
 
         /// <summary>
-        /// Allows to implement MVC's controller in View
+        /// Allows to implement MVC's presenter in View
         /// </summary>
-        /// <param name="controller">current controller</param>
-        void SetController(SnippetController controller);
+        /// <param name="presenter">current presenter</param>
+        void SetPresenter(SnippetPresenter presenter);
 
         /// <summary>
         /// Allows to fill GetUserControl combobox with items

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows.Forms;
 using Model;
 
-namespace Controller
+namespace Presenter
 {
-    public class SnippetController
+    public class SnippetPresenter
     {
         private readonly ICommunicator _communicator;
         private readonly ISnippetView _view;
@@ -20,11 +20,11 @@ namespace Controller
         /// </summary>
         /// <param name="view">MVC view</param>
         /// <param name="communicator">MVC model's communicate class</param>
-        public SnippetController(ISnippetView view, ICommunicator communicator)
+        public SnippetPresenter(ISnippetView view, ICommunicator communicator)
         {
             _communicator = communicator;
             _view = view;
-            view.SetController(this);
+            view.SetPresenter(this);
         }
 
         public string CurrentCategory { get; private set; }
@@ -59,7 +59,7 @@ namespace Controller
                                   };
 
             ControlsHelper.AddListViewItem(_view.GetListView, _view.EntryItem, true);
-            ControlsHelper.SelectListViewItem(_view.GetListView, _view.EntryItem.ID);
+            ControlsHelper.SelectListViewItem(_view.GetListView, x => Equals(x.Tag, _view.EntryItem.ID));
             _view.GetUserControl.Visible = true;
         }
 
@@ -92,8 +92,8 @@ namespace Controller
         /// <returns>true is serialization succeeded</returns>
         public bool Serialize()
         {
-            if (_view.GetListView.SelectedItems.Count == 0 || _view.GetListView.SelectedItems[0].Tag == null) return false;
-            return XmlSerialize.SerializeBaseClass(Entries, _view.GetListView.SelectedItems[0].Tag.ToString()) != null;
+            return _view.GetListView.SelectedItems.Count != 0 && _view.GetListView.SelectedItems[0].Tag != null
+                   && XmlSerialize.SerializeBaseClass(Entries, _view.GetListView.SelectedItems[0].Tag) != null;
         }
 
         /// <summary>
@@ -104,20 +104,19 @@ namespace Controller
             using (var dialog = new OpenFileDialog())
             {
                 dialog.InitialDirectory = string.Format("{0}\\serialized\\", Application.StartupPath);
-
                 if (dialog.ShowDialog() != DialogResult.OK) return;
                 _view.EntryItem = XmlSerialize.DeserializeBaseClass(_communicator, dialog.FileName);
             }
             LoadView();
         }
 
-
         /// <summary>
         /// Event of choosing new entry
         /// </summary>
         public void AfterSelectEvent(ListView lw, TreeViewEventArgs e)
         {
-            ControlsHelper.PopulateListView(Entries, lw, CurrentCategory = e.Node.Text);
+            CurrentCategory = e.Node.Text;
+            ControlsHelper.PopulateListView(Entries, lw, x => x.Category == CurrentCategory);
             _view.GetUserControl.Visible = false;
 
             _view.SearchBoxText = CurrentCategory;

@@ -38,17 +38,26 @@ namespace Model
         {
             if (_db.ExecuteScalar(string.Format("SELECT name FROM sqlite_master WHERE type='table' AND name='{0}'", TableName)) == string.Empty)
                 if (MessageBox.Show("Sqlite database is empty or corrupt.\r\nNew one will be created...", "SQLite warning", MessageBoxButtons.OK) == DialogResult.OK)
-                    _db.ExecuteNonQuery("CREATE TABLE Snippet (ID integer PRIMARY KEY, Root text, Name text, Description text, Code varchar, Category varchar, DateChanged varchar)");
+                    _db.ExecuteNonQuery(
+                        "CREATE TABLE Snippet (" +
+                        "ID integer PRIMARY KEY, " +
+                        "Root text, " +
+                        "Name text, " +
+                        "Description text, " +
+                        "Code varchar, " +
+                        "Category varchar, " +
+                        "DateChanged varchar" +
+                        ")");
 
             return _db.FillDataset("select * from " + TableName).ToList<Entry>();
         }
 
-        public void DeleteItem(string key, Int64 id)
+        public void DeleteItem(object key, object id)
         {
-            _db.ExecuteNonQuery(String.Format("delete from {0} where {1};", TableName, key + "=" + id));
+            _db.ExecuteNonQuery(String.Format("delete from {0} where {1}={2}", TableName, key, id));
         }
 
-        public Int64 ModifyItem<T>(T item, string key, Int64 id) where T : class
+        public Int64 ModifyItem<T>(T item, object key, object id) where T : class
         {
             Dictionary<string, string> dict = item.GetType()
                 .GetFields()
@@ -62,7 +71,7 @@ namespace Model
                 return _db.GetLastInsertRowId();
             }
             _db.Update(TableName, dict, String.Format("{0}={1}", key, id));
-            return id;
+            return Int64.Parse(id.ToString());
         }
 
         #endregion
@@ -72,16 +81,16 @@ namespace Model
     {
         public static List<T> ToList<T>(this DataTable table) where T : new()
         {
-            List<FieldInfo> properties = typeof (T).GetFields().ToList();
-            return (from object row in table.Rows select CreateItemFromRow<T>((DataRow) row, properties)).ToList();
+            return table.Rows
+                .Cast<object>()
+                .Select(row => CreateItemFromRow<T>((DataRow) row, typeof (T).GetFields().ToList()))
+                .ToList();
         }
 
         private static T CreateItemFromRow<T>(DataRow row, IEnumerable<FieldInfo> properties) where T : new()
         {
             var item = new T();
-            foreach (FieldInfo property in properties)
-                property.SetValue(item, row[property.Name]);
-
+            properties.ToList().ForEach(x => x.SetValue(item, row[x.Name]));
             return item;
         }
     }

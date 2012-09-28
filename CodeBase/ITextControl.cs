@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Model;
 
 namespace CodeBase
 {
     public interface ITextControl
     {
-        string TcLanguage { get; set; }
-        string TcName { get; set; }
-        string TcDescription { get; set; }
-        string TcCode { get; set; }
-        string TcCategory { get; set; }
+        string EditLanguage { get; set; }
+        string EditName { get; set; }
+        string EditDescription { get; set; }
+        string EditCode { get; set; }
+        string EditCategory { get; set; }
 
-        void ShowDetails();
-        void HideDetails();
+        void ManageDetailsPanel(bool show);
 
         /// <summary>
         /// Allows to fill category combobox
         /// </summary>
         /// <param name="list">input list</param>
-        void FillCategory(IEnumerable<Entry> list);
+        /// <param name="f">Lambda expression</param>
+        void FillCategory(IEnumerable<Entry> list, Func<Entry, object> f);
 
         void ApplyResources();
     }

@@ -5,17 +5,17 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using CodeBase.Properties;
-using Controller;
 using Model;
+using Presenter;
 
 namespace CodeBase
 {
     public partial class MainForm : Form, ISnippetView
     {
         private static ITextControl _currentTextControl;
-        private SnippetController _controller;
 
         private ListViewItem _itemOnMouseDown;
+        private SnippetPresenter _presenter;
 
         public MainForm()
         {
@@ -58,36 +58,36 @@ namespace CodeBase
             {
                 return new Entry
                            {
-                               Root = _currentTextControl.TcLanguage,
-                               Name = _currentTextControl.TcName,
-                               Description = _currentTextControl.TcDescription,
-                               Code = _currentTextControl.TcCode,
-                               Category = _currentTextControl.TcCategory,
+                               Root = _currentTextControl.EditLanguage,
+                               Name = _currentTextControl.EditName,
+                               Description = _currentTextControl.EditDescription,
+                               Code = _currentTextControl.EditCode,
+                               Category = _currentTextControl.EditCategory,
                                DateChanged = DateTime.Now.ToString(CultureInfo.InvariantCulture),
                                ID = EntryId
                            };
             }
             set
             {
-                _currentTextControl.TcLanguage = value.Root;
-                _currentTextControl.TcName = value.Name;
-                _currentTextControl.TcDescription = value.Description;
-                _currentTextControl.TcCode = value.Code;
-                _currentTextControl.TcCategory = value.Category;
+                _currentTextControl.EditLanguage = value.Root;
+                _currentTextControl.EditName = value.Name;
+                _currentTextControl.EditDescription = value.Description;
+                _currentTextControl.EditCode = value.Code;
+                _currentTextControl.EditCategory = value.Category;
                 EntryId = value.ID;
             }
         }
 
 
-        public void SetController(SnippetController controller)
+        public void SetPresenter(SnippetPresenter presenter)
         {
-            _controller = controller;
+            _presenter = presenter;
         }
 
 
         public void FillCategory(IEnumerable<Entry> list)
         {
-            _currentTextControl.FillCategory(list);
+            _currentTextControl.FillCategory(list, x => (object) x.Category);
         }
 
         public string SearchBoxText
@@ -101,14 +101,14 @@ namespace CodeBase
         private void OnSearchTextBoxLeave(object s, EventArgs e)
         {
             if (string.IsNullOrEmpty(SearchBoxText))
-                SearchBoxText = _controller.CurrentCategory;
+                SearchBoxText = _presenter.CurrentCategory;
         }
 
         private void OnSearchTextBoxTextChanged(object s, EventArgs e)
         {
             if (SearchBoxText.Contains(Resources.Search) || SearchBoxText.Length <= 0) return;
-            IEnumerable<Entry> entry = ControlsHelper.SearchInCategory(_controller.Entries, _controller.CurrentCategory, SearchBoxText);
-            ControlsHelper.PopulateListView(entry, GetListView, _controller.CurrentCategory);
+            IEnumerable<Entry> entry = ControlsHelper.SearchInCategory(_presenter.Entries, _presenter.CurrentCategory, SearchBoxText);
+            ControlsHelper.PopulateListView(entry, GetListView, x => x.Category == _presenter.CurrentCategory);
         }
 
         private void OnSearchTextBoxMouseDown(object s, MouseEventArgs e)
@@ -119,14 +119,14 @@ namespace CodeBase
 
         private void OnTreeViewAfterSelect(object s, TreeViewEventArgs e)
         {
-            _controller.AfterSelectEvent(GetListView, e);
+            _presenter.AfterSelectEvent(GetListView, e);
         }
 
         private void OnSelectedIndexChanged(object s, EventArgs e)
         {
             if (_itemOnMouseDown != null && GetListView.SelectedIndices.Count == 0)
                 return;
-            _controller.ListViewSelectNodes((ListView) s);
+            _presenter.ListViewSelectNodes((ListView) s);
         }
 
         private void LvTransactionsMouseDown(object sender, MouseEventArgs e)
@@ -145,44 +145,44 @@ namespace CodeBase
 
         private void NewMenuItemClick(object sender, EventArgs e)
         {
-            _controller.AddNew();
+            _presenter.AddNew();
         }
 
         private void SaveMenuItemClick(object sender, EventArgs e)
         {
-            _controller.Save();
+            _presenter.Save();
         }
 
         private void DeleteMenuItemClick(object sender, EventArgs e)
         {
-            _controller.Delete();
+            _presenter.Delete();
         }
 
         private void EmptyToolStripMenuItemClick(object sender, EventArgs e)
         {
-            _currentTextControl.HideDetails();
+            _currentTextControl.ManageDetailsPanel(false);
         }
 
         private void DetailsToolStripMenuItemClick(object sender, EventArgs e)
         {
-            _currentTextControl.ShowDetails();
+            _currentTextControl.ManageDetailsPanel(true);
         }
 
         private void CopyCodeToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(_currentTextControl.TcCode))
-                Clipboard.SetText(_currentTextControl.TcCode);
+            if (!string.IsNullOrEmpty(_currentTextControl.EditCode))
+                Clipboard.SetText(_currentTextControl.EditCode);
         }
 
         private void SerializeToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (GetListView.SelectedItems.Count > 0 && _controller.Serialize())
+            if (GetListView.SelectedItems.Count > 0 && _presenter.Serialize())
                 MessageBox.Show(Resources.Done);
         }
 
         private void RestoreToolStripMenuItemClick(object sender, EventArgs e)
         {
-            _controller.Deserialize();
+            _presenter.Deserialize();
         }
 
         private void EnglishToolStripMenuItemClick(object sender, EventArgs e)

@@ -39,6 +39,11 @@ namespace CodeBase
             this.activeTreeView = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.listView1 = new CodeBase.MyListView();
+            this.column1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.column2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.column3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.column4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newMenuItem = new System.Windows.Forms.ToolStripButton();
             this.saveMenuItem = new System.Windows.Forms.ToolStripButton();
@@ -64,11 +69,6 @@ namespace CodeBase
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.russianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.listView1 = new CodeBase.MyListView();
-            this.column1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.column2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.column3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.column4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -140,6 +140,59 @@ namespace CodeBase
             this.splitContainer2.Size = new System.Drawing.Size(789, 655);
             this.splitContainer2.SplitterDistance = 155;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // listView1
+            // 
+            this.listView1.AutoArrange = false;
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.column1,
+            this.column2,
+            this.column3,
+            this.column4});
+            this.listView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView1.HideSelection = false;
+            this.listView1.LabelWrap = false;
+            this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.ShowGroups = false;
+            this.listView1.ShowItemToolTips = true;
+            this.listView1.Size = new System.Drawing.Size(785, 151);
+            this.listView1.SmallImageList = this.imageList1;
+            this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.OnSelectedIndexChanged);
+            this.listView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LvTransactionsMouseDown);
+            // 
+            // column1
+            // 
+            this.column1.Text = global::CodeBase.Properties.Resources.ItemName;
+            this.column1.Width = 246;
+            // 
+            // column2
+            // 
+            this.column2.Text = global::CodeBase.Properties.Resources.Syntax;
+            this.column2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.column2.Width = 68;
+            // 
+            // column3
+            // 
+            this.column3.Text = global::CodeBase.Properties.Resources.Last_Changed;
+            this.column3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.column3.Width = 125;
+            // 
+            // column4
+            // 
+            this.column4.Text = global::CodeBase.Properties.Resources.Description;
+            this.column4.Width = 350;
             // 
             // toolStrip1
             // 
@@ -376,59 +429,6 @@ namespace CodeBase
             this.notifyIcon.Text = "CodeBase";
             this.notifyIcon.Visible = true;
             this.notifyIcon.DoubleClick += new System.EventHandler(this.NotifyIconDoubleClick);
-            // 
-            // listView1
-            // 
-            this.listView1.AutoArrange = false;
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.column1,
-            this.column2,
-            this.column3,
-            this.column4});
-            this.listView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.HideSelection = false;
-            this.listView1.LabelWrap = false;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.ShowGroups = false;
-            this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(785, 151);
-            this.listView1.SmallImageList = this.imageList1;
-            this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.OnSelectedIndexChanged);
-            this.listView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LvTransactionsMouseDown);
-            // 
-            // column1
-            // 
-            this.column1.Text = global::CodeBase.Properties.Resources.ItemName;
-            this.column1.Width = 246;
-            // 
-            // column2
-            // 
-            this.column2.Text = global::CodeBase.Properties.Resources.Syntax;
-            this.column2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.column2.Width = 68;
-            // 
-            // column3
-            // 
-            this.column3.Text = global::CodeBase.Properties.Resources.Last_Changed;
-            this.column3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.column3.Width = 125;
-            // 
-            // column4
-            // 
-            this.column4.Text = global::CodeBase.Properties.Resources.Description;
-            this.column4.Width = 350;
             // 
             // MainForm
             // 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Model;
 
-namespace Controller
+namespace Presenter
 {
     public static class ControlsHelper
     {
@@ -13,39 +13,40 @@ namespace Controller
         /// </summary>
         /// <param name="treeView">treeview name</param>
         /// <param name="list">List populating from</param>
-        private static void PupulateTreeView(TreeView treeView, IEnumerable<Entry> list)
+        /// <param name="f">Lambda expression</param>
+        private static void PupulateTreeView(TreeView treeView, IEnumerable<Entry> list, Func<Entry, string> f)
         {
             treeView.Nodes.Clear();
-            foreach (string text in list.Select(item => item.Category).OrderBy(x => x).Distinct())
-            {
-                treeView.Nodes.Add(new TreeNode {Text = text, ImageIndex = 1});
-            }
+            list
+                .Select(f)
+                .OrderBy(x => x)
+                .Distinct()
+                .ToList()
+                .ForEach(x => treeView.Nodes.Add(new TreeNode {Text = x, ImageIndex = 1}));
         }
-
 
         /// <summary>
         /// Allows to populate listview
         /// </summary>
         /// <param name="list">list with values</param>
-        /// <param name="lw">target listview</param>
-        /// <param name="category">current category</param>
-        public static void PopulateListView(IEnumerable<Entry> list, ListView lw, string category)
+        /// <param name="listView">target listview</param>
+        /// <param name="f">Lambda expression</param>
+        public static void PopulateListView(IEnumerable<Entry> list, ListView listView, Func<Entry, bool> f)
         {
-            lw.Items.Clear();
-            foreach (Entry item in list.Where(x => x.Category == category))
-            {
-                AddListViewItem(lw, item, false);
-            }
+            listView.Items.Clear();
+            list
+                .Where(f)
+                .ToList()
+                .ForEach(x => AddListViewItem(listView, x, false));
         }
-
 
         /// <summary>
         /// Allows to add items to ListView
         /// </summary>
-        /// <param name="lw">target listview</param>
+        /// <param name="listView">target listview</param>
         /// <param name="item">current entry</param>
         /// <param name="isNew">Empty if new item</param>
-        public static void AddListViewItem(ListView lw, Entry item, bool isNew)
+        public static void AddListViewItem(ListView listView, Entry item, bool isNew)
         {
             var listViewItem = new ListViewItem(item.Name);
             listViewItem.SubItems.Add(item.Root);
@@ -57,52 +58,46 @@ namespace Controller
                 listViewItem.ToolTipText = item.Code;
                 listViewItem.ImageIndex = 0;
             }
-            lw.Items.Add(listViewItem);
+            listView.Items.Add(listViewItem);
         }
 
         /// <summary>
-        /// Recursive method to find current node
+        /// Allows to find and select target node
         /// </summary>
-        /// <param name="nodeCollection">nodecollection to look through</param>
-        /// <param name="childText">node text</param>
-        private static void SelectTreeViewNodeFromPath(TreeNodeCollection nodeCollection, string childText)
+        /// <param name="treeView">treeview nodecollection to look through</param>
+        /// <param name="text">node text</param>
+        private static void SelectTreeViewNodeByNodeName(TreeView treeView, string text)
         {
-            foreach (TreeNode node in nodeCollection)
-            {
-                if (string.Compare(node.Text, childText, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    node.TreeView.SelectedNode = node;
-                    return;
-                }
-                SelectTreeViewNodeFromPath(node.Nodes, childText);
-            }
+            treeView.SelectedNode = treeView.Nodes
+                .OfType<TreeNode>()
+                .FirstOrDefault(x => x.Text == text);
         }
 
         /// <summary>
         /// Allows to select item in listview
         /// </summary>
-        /// <param name="lw">target listview</param>
-        /// <param name="id">id to search</param>
-        public static void SelectListViewItem(ListView lw, Int64 id)
+        /// <param name="listView">target listview</param>
+        /// <param name="f">Lambda expression</param>
+        public static void SelectListViewItem(ListView listView, Func<ListViewItem, bool> f)
         {
-            foreach (ListViewItem item in lw.Items.Cast<ListViewItem>().Where(x => Equals(x.Tag, id)))
-            {
-                item.Selected = true;
-                return;
-            }
+            ListViewItem item = listView.Items
+                .Cast<ListViewItem>()
+                .Where(f)
+                .FirstOrDefault();
+            if (item != null) item.Selected = true;
         }
 
         /// <summary>
         /// Allows to search by Code or Name in current Category
         /// </summary>
         /// <param name="list">list to search in</param>
-        /// <param name="currentCategory">Category name</param>
+        /// <param name="category">Category name</param>
         /// <param name="stringToSearch">search string</param>
-        public static IEnumerable<Entry> SearchInCategory(IEnumerable<Entry> list, string currentCategory, string stringToSearch)
+        public static IEnumerable<Entry> SearchInCategory(IEnumerable<Entry> list, string category, string stringToSearch)
         {
             return list
-                .Where(x => x.Category == currentCategory)
-                .Where(x => Contains(x.Code, stringToSearch) || Contains(x.Name, stringToSearch))
+                .Where(x => x.Category == category)
+                .Where(x => x.Code.Contains(stringToSearch, true) || x.Name.Contains(stringToSearch, true))
                 .ToList();
         }
 
@@ -115,22 +110,20 @@ namespace Controller
         public static void EntriesChanged(ISnippetView view, string currentCategory, List<Entry> list)
         {
             view.GetTreeView.BeginUpdate();
-            PupulateTreeView(view.GetTreeView, list);
-            view.FillCategory(list);
-
-            PopulateListView(list, view.GetListView, currentCategory);
-
-            SelectTreeViewNodeFromPath(view.GetTreeView.Nodes, view.EntryItem.Category);
-            SelectListViewItem(view.GetListView, view.EntryItem.ID);
+            PupulateTreeView(view.GetTreeView, list, x => x.Category);
+            SelectTreeViewNodeByNodeName(view.GetTreeView, view.EntryItem.Category);
             view.GetTreeView.EndUpdate();
+            view.FillCategory(list);
+            PopulateListView(list, view.GetListView, x => x.Category == currentCategory);
+            SelectListViewItem(view.GetListView, x => Equals(x.Tag, view.EntryItem.ID));
         }
 
         /// <summary>
-        /// Allows to find occurences ignorecase
+        /// Allows to find occurences ignorecase or not
         /// </summary>
-        private static bool Contains(string a, string b)
+        private static bool Contains(this string a, string b, bool ignoreCase)
         {
-            return a.ToUpper().Contains(b.ToUpper());
+            return ignoreCase ? a.ToUpper().Contains(b.ToUpper()) : a.Contains(b);
         }
     }
 }

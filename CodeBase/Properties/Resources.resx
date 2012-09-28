@@ -214,13 +214,13 @@
   <data name="basket_remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1347362844_basket_remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Increase_Indent">
-    <value xml:space="preserve">Increase Indent</value>
+  <data name="Increase_Indent" xml:space="preserve">
+    <value>Increase Indent</value>
   </data>
-  <data name="Decrease_Indent">
-    <value xml:space="preserve">Decrease Indent</value>
+  <data name="Decrease_Indent" xml:space="preserve">
+    <value>Decrease Indent</value>
   </data>
-  <data name="AutoIndent_selected_text">
-    <value xml:space="preserve">AutoIndent selected text</value>
+  <data name="AutoIndent_selected_text" xml:space="preserve">
+    <value>AutoIndent selected text</value>
   </data>
 </root>

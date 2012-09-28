@@ -58,7 +58,8 @@
     <StartupObject>CodeBase.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FastColoredTextBox">
+    <Reference Include="FastColoredTextBox, Version=2.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\FastColoredTextBox.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -156,9 +157,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Controller\Controller.csproj">
+    <ProjectReference Include="..\Controller\Presenter.csproj">
       <Project>{6B173050-219A-4448-849E-215E1DFD06A1}</Project>
-      <Name>Controller</Name>
+      <Name>Presenter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{B3A5FE90-7678-458D-B3D8-1BE910118ECA}</Project>

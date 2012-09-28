@@ -16,7 +16,7 @@ namespace Model
         /// </summary>
         /// <param name="key">unique key name</param>
         /// <param name="id">unique key value</param>
-        void DeleteItem(string key, Int64 id);
+        void DeleteItem(object key, object id);
 
         /// <summary>
         /// Allows to insert or update item in database by Key
@@ -25,7 +25,7 @@ namespace Model
         /// <param name="key">unique key name</param>
         /// <param name="id">unique key value</param>
         /// <returns>rowid</returns>
-        Int64 ModifyItem<T>(T item, string key, Int64 id)
+        Int64 ModifyItem<T>(T item, object key, object id)
             where T : class;
     }
 }

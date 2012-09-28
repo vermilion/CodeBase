@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using Controller;
 using Model;
+using Presenter;
 
 namespace CodeBase
 {
@@ -18,7 +18,7 @@ namespace CodeBase
 
             using (var view = new MainForm())
             {
-                new SnippetController(view, new SQLiteCommunicator()).LoadView();
+                new SnippetPresenter(view, new SQLiteCommunicator()).LoadView();
                 Application.Run(view);
             }
         }
